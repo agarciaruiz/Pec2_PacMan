@@ -71,7 +71,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>.\Debug</OutDir>
     <IntDir>obj\x64\Debug\PacMan\</IntDir>
-    <TargetName>Dungeon</TargetName>
+    <TargetName>PacMan</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
