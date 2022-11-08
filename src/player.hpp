@@ -12,36 +12,23 @@
 
 class Player {
 private:
-    Vector2 _basePosition;
-    Vector2 _turretPosition;
-    float _turretRotation;
-    float _rotationSpeed;
-    float maxAngle;
-    float _timeout;
-    float _shootingTimer;
+    Vector2 _position;
+    float _moveSpeed;
     int _score;
+    int _lifes;
 
-    Texture2D _bodyTexture;
-    Texture2D _turretTexture;
-    Pool<Bullet> bulletsPool{};
-    std::list<Bullet*> bullets {};
-    Sound _laserSound;
-
-    Bullet* Player::SpawnBullet();
-    void Player::Rotate(int direction);
-    void Player::Shoot();
+    Texture2D _texture;
+    void Player::Move(Vector2 dir);
 
 public:
     Vector2 Player::BasePosition() const;
-    Vector2 Player::TurretPosition() const;
-    float Player::TurretRotation() const;
-    float Player::RotSpeed() const;
     int Player::Score() const;
-    Texture2D Player::BodyTexture() const;
-    Texture2D Player::TurretTexture() const;
+    int Player::Lifes() const;
+    Texture2D Player::Texture() const;
 
-    void Player::Init(Vector2 basePosition);
-    void Player::Update(std::list<Helicopter*> helicopters, std::list<Trooper*> troopers);
+    Player::Player();
+    void Player::Init();
+    void Player::Update();
     void Player::Draw();
     void Player::Reset();
 };
