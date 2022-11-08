@@ -2,6 +2,9 @@
 
 Vector2 Tilemap::Position() const { return _position; }
 int Tilemap::TileSize() const { return _tileSize; }
+int Tilemap::TileCountX() const { return _tileCountX; }
+int Tilemap::TileCountY() const { return _tileCountY; }
+Tilemap::Tile* Tilemap::Tiles() const { return _tiles; }
 
 void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap) {
     const char* fileExt;
@@ -74,7 +77,7 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* 
             {
                 for (int i = 0; i < _tileCountX; i++)
                 {
-                    printf("%i ", _tiles[j * _tileCountX + i].object);
+                    printf("%i ", _tiles[j * _tileCountX + i].collider);
                 }
                 printf("\n");
             }

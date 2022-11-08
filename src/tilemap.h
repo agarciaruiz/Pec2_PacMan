@@ -44,6 +44,9 @@ private:
 public:
     Vector2 Tilemap::Position() const;
     int Tilemap::TileSize() const;
+    int Tilemap::TileCountX() const;
+    int Tilemap::TileCountY() const;
+    Tile* Tilemap::Tiles() const;
 
 	void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap);
     void Tilemap::Init(float scrW, float scrH, int tileSize);

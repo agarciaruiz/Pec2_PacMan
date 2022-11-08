@@ -26,8 +26,11 @@ private:
     State _currentState = IDLE;
     State _previousState = IDLE;
 
+    Tilemap _tilemap;
+
     void Player::Move();
     void Player::CheckState();
+    void Player::CheckCollisions(Vector2 oldPosition);
 
 public:
     Vector2 Player::BasePosition() const;

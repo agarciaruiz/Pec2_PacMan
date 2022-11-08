@@ -41,10 +41,41 @@ void Player::CheckState()
     }
 }
 
+void Player::CheckCollisions(Vector2 oldPosition) 
+{
+    for (int y = 0; y < _tilemap.TileCountY(); y++)
+    {
+        for (int x = 0; x < _tilemap.TileCountX(); x++)
+        {
+
+            Rectangle playerCollision = {
+                _position.x,
+                _position.y,
+                _texture.width / 2,
+                _texture.height / 4
+            };
+            Rectangle tilemapCollision = {
+                _tilemap.Position().x + x * _tilemap.TileSize(),
+                _tilemap.Position().y + y * _tilemap.TileSize(),
+                _tilemap.TileSize(),
+                _tilemap.TileSize()
+            };
+
+            // TODO: Review player padding for a better collision with walls
+            if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].collider == 0) && CheckCollisionRecs(playerCollision, tilemapCollision))
+            {
+                // There is a collision! Restore player position (undo player position update!) 
+                _position = oldPosition;
+            }
+        }
+    }
+}
+
 // PUBLIC METHODS
 void Player::Init(Tilemap tilemap) 
 {
     _score = 0;
+    _tilemap = tilemap;
     _position = Vector2{tilemap.Position().x + 13 * tilemap.TileSize(), tilemap.Position().y + 17 * tilemap.TileSize()};
     _dir = Vector2{ 0, 0 };
     _moveSpeed = 2;
@@ -61,13 +92,14 @@ void Player::Init(Tilemap tilemap)
 void Player::Update()
 {
     _framesCounter++;
+    Vector2 oldPosition = _position;
 
     if (_framesCounter >= (60 / _framesSpeed)) 
     {
         _framesCounter = 0;
         _currentFrame++;
 
-        if (_currentFrame > 5) _currentFrame = 0;
+        if (_currentFrame > 1) _currentFrame = 0;
 
         CheckState();
     }
@@ -95,6 +127,7 @@ void Player::Update()
     _previousState = _currentState;
 
     Move();
+    CheckCollisions(oldPosition);
 }
 
 
