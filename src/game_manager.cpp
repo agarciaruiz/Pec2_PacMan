@@ -14,7 +14,7 @@ void GameManager::Init()
 	_tilemap.Load("resources/TileMap/tilemap.txt", "resources/TileMap/tilemap_collisions.txt", "resources/TileMap/objects.txt");
 	_tilemap.Init(SCR_WIDTH, SCR_HEIGHT, 32);
 
-	//player.Init();
+	player.Init();
 	//_enemyManager.Init();
 }
 
@@ -26,6 +26,7 @@ void GameManager::Update()
 	if (!gamePaused)
 	{
 		//UpdateTime();
+		// PLAYER UPDATE
 		player.Update();
 		//_enemyManager.Update();
 	}
@@ -33,17 +34,23 @@ void GameManager::Update()
 
 void GameManager::Draw()
 {
+	// UI DRAW
 	DrawUI();
+
+	// TILEMAP DRAW
 	_tilemap.Draw(texTileset);
+	
+	// PLAYER DRAW
 	player.Draw();
 	//_enemyManager.Draw();
 }
 
 void GameManager::DrawUI()
 {
+	// PAUSED GAME
 	if (gamePaused) DrawText("GAME PAUSED", SCR_WIDTH / 2 - MeasureText("GAME PAUSED", 40) / 2, SCR_HEIGHT / 2 + 60, 40, GRAY);
 
-	// REPLACE BY PLAYER LIFES
+	// PLAYER LIFES 
 	int offset = 50;
 	int lifesPos = GetScreenWidth();
 	for (int i = 0; i < player.Lifes(); i++) 
@@ -51,9 +58,8 @@ void GameManager::DrawUI()
 		lifesPos -= offset;
 		DrawTexture(playerLifesTexture, lifesPos, 5, WHITE);
 	}
-	/*char* numLanded = (char*)TextFormat("LANDED TROOPERS: %i", _enemyManager.LandedTroopers());
-	DrawText(numLanded, 20, 30, 20, GRAY);*/
 
+	// PLAYER SCORE
 	char* score = (char*)TextFormat("SCORE:    %i", player.Score());
 	DrawText(score, 20, 10, 20, GRAY);
 }

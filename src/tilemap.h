@@ -42,6 +42,8 @@ private:
     Vector2 position;
 
 public:
+    Tile Tilemap::Tiles() const;
+
 	void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap);
     void Tilemap::Init(float scrW, float scrH, int tileSize);
 	void Tilemap::Unload();

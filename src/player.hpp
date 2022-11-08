@@ -1,14 +1,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#define PLAYER_LIFES             5
 
 #include <vector>
-#include <math.h>
 #include "raylib.h"
 #include "screen.hpp"
-#include "bullet.h"
-#include "helicopter.h"
-#include "pool.h"
+#include "tilemap.h"
 
 class Player {
 private:
@@ -17,8 +13,19 @@ private:
     int _score;
     int _lifes;
 
+    Image _image;
     Texture2D _texture;
+    Rectangle _frameRec;
+
+    int _currentFrame;
+    int _framesCounter;
+    int _framesSpeed;
+
+    enum State {IDLE, RIGHT, LEFT, DOWN, UP, DEAD};
+    State currentState = IDLE;
+
     void Player::Move(Vector2 dir);
+    void Player::CheckState();
 
 public:
     Vector2 Player::BasePosition() const;
@@ -26,7 +33,6 @@ public:
     int Player::Lifes() const;
     Texture2D Player::Texture() const;
 
-    Player::Player();
     void Player::Init();
     void Player::Update();
     void Player::Draw();
