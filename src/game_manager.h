@@ -11,9 +11,11 @@ class GameManager {
 private:
 	// Game settings
 	bool gamePaused;
+	Image playerLifesImage;
+	Texture2D playerLifesTexture;
 
 	// Player settings
-	Player player;
+	Player player {};
 	Vector2 playerPos;
 
 	EnemyManager _enemyManager{};

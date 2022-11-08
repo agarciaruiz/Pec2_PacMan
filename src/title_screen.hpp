@@ -5,6 +5,9 @@
 class TitleScreen : public Screen {
 private:
 	Texture2D texTitle;
+	char* authorText;
+	char* startGameText;
+	char* goToOptionsText;
 
 public:
 	void TitleScreen::Init() override;

@@ -5,17 +5,17 @@ EnemyManager GameManager::EnemyManager() const { return _enemyManager; }
 void GameManager::Init()
 {
 	gamePaused = false;
-
+	playerLifesImage = LoadImage("resources/Game/IconLifes.png");
+	playerLifesTexture = LoadTextureFromImage(playerLifesImage);
 	imTileset = LoadImage("resources/TileMap/PacManTileset.png");
 	texTileset = LoadTextureFromImage(imTileset);
 	UnloadImage(imTileset);
 
-	// PASS TXT FILES
 	_tilemap.Load("resources/TileMap/tilemap.txt", "resources/TileMap/tilemap_collisions.txt", "resources/TileMap/objects.txt");
 	_tilemap.Init(SCR_WIDTH, SCR_HEIGHT, 32);
-	/*playerPos = Vector2{SCR_WIDTH / 2 , SCR_HEIGHT};
-	player.Init(playerPos);
-	_enemyManager.Init();*/
+
+	//player.Init();
+	//_enemyManager.Init();
 }
 
 void GameManager::Update()
@@ -26,7 +26,7 @@ void GameManager::Update()
 	if (!gamePaused)
 	{
 		//UpdateTime();
-		//player.Update(_enemyManager.Helicopters(), _enemyManager.Troopers());
+		player.Update();
 		//_enemyManager.Update();
 	}
 }
@@ -35,7 +35,7 @@ void GameManager::Draw()
 {
 	DrawUI();
 	_tilemap.Draw(texTileset);
-	//player.Draw();
+	player.Draw();
 	//_enemyManager.Draw();
 }
 
@@ -44,6 +44,13 @@ void GameManager::DrawUI()
 	if (gamePaused) DrawText("GAME PAUSED", SCR_WIDTH / 2 - MeasureText("GAME PAUSED", 40) / 2, SCR_HEIGHT / 2 + 60, 40, GRAY);
 
 	// REPLACE BY PLAYER LIFES
+	int offset = 50;
+	int lifesPos = GetScreenWidth();
+	for (int i = 0; i < player.Lifes(); i++) 
+	{
+		lifesPos -= offset;
+		DrawTexture(playerLifesTexture, lifesPos, 5, WHITE);
+	}
 	/*char* numLanded = (char*)TextFormat("LANDED TROOPERS: %i", _enemyManager.LandedTroopers());
 	DrawText(numLanded, 20, 30, 20, GRAY);*/
 

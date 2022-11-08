@@ -3,6 +3,9 @@
 void TitleScreen::Init()
 {
 	texTitle = LoadTexture("resources/Menu/PacMan_MainLogo.png");
+	authorText = "by Alberto G.";
+	startGameText = "PRESS [ENTER] to START";
+	goToOptionsText = "PRESS [0] for INSTRUCTIONS";
 	framesCounter = 0;
 	finishScreen = 0;
 }
@@ -20,15 +23,12 @@ void TitleScreen::Update()
 
 void TitleScreen::Draw()
 {
-	// TODO: Draw TITLE screen here!
-	DrawTexture(texTitle, SCR_WIDTH / 2 - texTitle.width / 2, SCR_HEIGHT / 4 - texTitle.height / 2, WHITE);
-
-	DrawText("by", SCR_WIDTH / 2 - MeasureText("by", 20) / 2, GetScreenHeight() / 4 + 120, 20, DARKGRAY);
-	DrawText("Alberto G.", SCR_WIDTH / 2 - MeasureText("Alberto G.", 20) / 2, GetScreenHeight() / 4 + 140, 20, DARKGRAY);
+	DrawTexture(texTitle, SCR_WIDTH / 2 - texTitle.width / 2, SCR_HEIGHT / 4 - 80, WHITE);
+	DrawText(authorText, SCR_WIDTH / 2 - MeasureText(authorText, 20) / 2, GetScreenHeight() / 4 + 180, 20, DARKGRAY);
 
 	if ((framesCounter / 30) % 2 == 0)
 	{
-		DrawText("PRESS [ENTER] to START", GetScreenWidth() / 2 - MeasureText("PRESS [ENTER] to START", 20) / 2, GetScreenHeight() / 2 + 80, 20, GRAY);
-		DrawText("PRESS [0] for INSTRUCTIONS", GetScreenWidth() / 2 - MeasureText("PRESS [0] for INSTRUCTIONS", 20) / 2, GetScreenHeight() / 2 + 100, 20, DARKGRAY);
+		DrawText(startGameText, GetScreenWidth() / 2 - MeasureText(startGameText, 20) / 2, GetScreenHeight() / 2 + 120, 20, GRAY);
+		DrawText(goToOptionsText, GetScreenWidth() / 2 - MeasureText(goToOptionsText, 20) / 2, GetScreenHeight() / 2 + 140, 20, DARKGRAY);
 	}
 }
