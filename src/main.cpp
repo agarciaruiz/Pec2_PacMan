@@ -14,7 +14,7 @@ int main(void)
     transFromScreen = -1;
     transToScreen = Screens::NONE;
 
-    InitWindow(SCR_WIDTH, SCR_HEIGHT, "Paratrooper - Alberto Garcia");
+    InitWindow(SCR_WIDTH, SCR_HEIGHT, "PacMan - Alberto Garcia");
 
     InitAudioDevice();      // Initialize audio device
 

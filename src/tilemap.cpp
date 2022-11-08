@@ -1,6 +1,6 @@
 #include "tilemap.h"
 
-void Tilemap::Load(const char* valuesMap, const char* collidersMap) {
+void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap) {
     const char* fileExt;
 
     if ((fileExt = strrchr(valuesMap, '.')) != NULL)
@@ -36,6 +36,19 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap) {
 
             fclose(valuesFile);
 
+            // Read values from object file
+            FILE* objectsFile = fopen(objectsMap, "rt");
+            counter = 0;
+            temp = 0;
+
+            while (!feof(objectsFile))
+            {
+                fscanf(objectsFile, "%i", &temp);
+                tiles[counter].object = temp;
+                counter++;
+            }
+            fclose(objectsFile);
+
             // Read values from text file
             // NOTE: Colliders map data MUST match values data, 
             // or we need to do a previous check like done with values data
@@ -58,7 +71,7 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap) {
             {
                 for (int i = 0; i < tileCountX; i++)
                 {
-                    printf("%i ", tiles[j * tileCountX + i].collider);
+                    printf("%i ", tiles[j * tileCountX + i].object);
                 }
                 printf("\n");
             }
@@ -89,6 +102,7 @@ void Tilemap::Draw(Texture2D tileset)
         {
             // Draw each piece of the tileset in the right position to build map
             DrawTextureRec(tileset, tilesetRecs[tiles[y * tileCountX + x].value - 1], Vector2 {position.x + x * tileSize, position.y + y * tileSize}, WHITE);
+            DrawTextureRec(tileset, tilesetRecs[tiles[y * tileCountX + x].object - 1], Vector2{ position.x + x * tileSize, position.y + y * tileSize }, WHITE);
         }
     }
 }

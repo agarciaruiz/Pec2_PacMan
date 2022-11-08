@@ -30,6 +30,7 @@ private:
 	struct Tile
 	{
 		int value;
+        int object;
 		bool collider;
 		Color color;
 	};
@@ -41,7 +42,7 @@ private:
     Vector2 position;
 
 public:
-	void Tilemap::Load(const char* valuesMap, const char* collidersMap);
+	void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap);
     void Tilemap::Init(float scrW, float scrH, int tileSize);
 	void Tilemap::Unload();
 	void Tilemap::Draw(Texture2D tileset);

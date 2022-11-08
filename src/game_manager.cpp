@@ -11,8 +11,8 @@ void GameManager::Init()
 	UnloadImage(imTileset);
 
 	// PASS TXT FILES
-	_tilemap.Load("resources/TileMap/tilemap.txt", "resources/TileMap/tilemap_collisions.txt");
-	_tilemap.Init(SCR_WIDTH, SCR_HEIGHT, 20);
+	_tilemap.Load("resources/TileMap/tilemap.txt", "resources/TileMap/tilemap_collisions.txt", "resources/TileMap/objects.txt");
+	_tilemap.Init(SCR_WIDTH, SCR_HEIGHT, 32);
 	/*playerPos = Vector2{SCR_WIDTH / 2 , SCR_HEIGHT};
 	player.Init(playerPos);
 	_enemyManager.Init();*/
@@ -47,8 +47,8 @@ void GameManager::DrawUI()
 	/*char* numLanded = (char*)TextFormat("LANDED TROOPERS: %i", _enemyManager.LandedTroopers());
 	DrawText(numLanded, 20, 30, 20, GRAY);*/
 
-	char* score = (char*)TextFormat("SCORE: %i", player.Score());
-	DrawText(score, 20, 50, 20, GRAY);
+	char* score = (char*)TextFormat("SCORE:    %i", player.Score());
+	DrawText(score, 20, 10, 20, GRAY);
 }
 
 void GameManager::ResetGame() 
