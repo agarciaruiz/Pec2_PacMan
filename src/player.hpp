@@ -9,6 +9,7 @@
 class Player {
 private:
     Vector2 _position;
+    Vector2 _dir;
     float _moveSpeed;
     int _score;
     int _lifes;
@@ -22,9 +23,10 @@ private:
     int _framesSpeed;
 
     enum State {IDLE, RIGHT, LEFT, DOWN, UP, DEAD};
-    State currentState = IDLE;
+    State _currentState = IDLE;
+    State _previousState = IDLE;
 
-    void Player::Move(Vector2 dir);
+    void Player::Move();
     void Player::CheckState();
 
 public:
@@ -33,7 +35,7 @@ public:
     int Player::Lifes() const;
     Texture2D Player::Texture() const;
 
-    void Player::Init();
+    void Player::Init(Tilemap tilemap);
     void Player::Update();
     void Player::Draw();
     void Player::Reset();

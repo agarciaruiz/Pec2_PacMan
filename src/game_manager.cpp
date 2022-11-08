@@ -14,7 +14,7 @@ void GameManager::Init()
 	_tilemap.Load("resources/TileMap/tilemap.txt", "resources/TileMap/tilemap_collisions.txt", "resources/TileMap/objects.txt");
 	_tilemap.Init(SCR_WIDTH, SCR_HEIGHT, 32);
 
-	player.Init();
+	player.Init(_tilemap);
 	//_enemyManager.Init();
 }
 

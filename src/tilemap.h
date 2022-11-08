@@ -35,14 +35,15 @@ private:
 		Color color;
 	};
 
-	Tile* tiles;
-	int tileCountX;
-	int tileCountY;
-	int tileSize;
-    Vector2 position;
+	Tile* _tiles;
+	int _tileCountX;
+	int _tileCountY;
+	int _tileSize;
+    Vector2 _position;
 
 public:
-    Tile Tilemap::Tiles() const;
+    Vector2 Tilemap::Position() const;
+    int Tilemap::TileSize() const;
 
 	void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap);
     void Tilemap::Init(float scrW, float scrH, int tileSize);

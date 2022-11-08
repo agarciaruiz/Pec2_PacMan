@@ -1,5 +1,8 @@
 #include "tilemap.h"
 
+Vector2 Tilemap::Position() const { return _position; }
+int Tilemap::TileSize() const { return _tileSize; }
+
 void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap) {
     const char* fileExt;
 
@@ -22,15 +25,15 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* 
 
             rewind(valuesFile);        // Return to the beginning of the file, to read again
 
-            tiles = (Tile*)malloc(counter * sizeof(Tile));
+            _tiles = (Tile*)malloc(counter * sizeof(Tile));
 
-            tileCountX = 27;
-            tileCountY = 23;
+            _tileCountX = 27;
+            _tileCountY = 23;
             counter = 0;
 
             while (!feof(valuesFile))
             {
-                fscanf(valuesFile, "%i", &tiles[counter].value);
+                fscanf(valuesFile, "%i", &_tiles[counter].value);
                 counter++;
             }
 
@@ -44,7 +47,7 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* 
             while (!feof(objectsFile))
             {
                 fscanf(objectsFile, "%i", &temp);
-                tiles[counter].object = temp;
+                _tiles[counter].object = temp;
                 counter++;
             }
             fclose(objectsFile);
@@ -59,7 +62,7 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* 
             while (!feof(collidersFile))
             {
                 fscanf(collidersFile, "%i", &temp);
-                tiles[counter].collider = temp;
+                _tiles[counter].collider = temp;
 
                 counter++;
             }
@@ -67,11 +70,11 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* 
             fclose(collidersFile);
 
 #if DEBUG   // print tilemap information loaded
-            for (int j = 0; j < tileCountY; j++)
+            for (int j = 0; j < _tileCountY; j++)
             {
-                for (int i = 0; i < tileCountX; i++)
+                for (int i = 0; i < _tileCountX; i++)
                 {
-                    printf("%i ", tiles[j * tileCountX + i].object);
+                    printf("%i ", _tiles[j * _tileCountX + i].object);
                 }
                 printf("\n");
             }
@@ -82,27 +85,27 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* 
 
 void Tilemap::Init(float scrW, float scrH, int tileSize) 
 {
-    this->tileSize = tileSize;
-    position = {
-        scrW / 2 - tileCountX * tileSize / 2,
-        scrH / 2 - tileCountY * tileSize / 2
+    this->_tileSize = tileSize;
+    _position = {
+        scrW / 2 - _tileCountX * tileSize / 2,
+        scrH / 2 - _tileCountY * tileSize / 2
     };
 }
 
 void Tilemap::Unload() 
 {
-    if (tiles != NULL) free(tiles);
+    if (_tiles != NULL) free(_tiles);
 }
 
 void Tilemap::Draw(Texture2D tileset) 
 {
-    for (int y = 0; y < tileCountY; y++)
+    for (int y = 0; y < _tileCountY; y++)
     {
-        for (int x = 0; x < tileCountX; x++)
+        for (int x = 0; x < _tileCountX; x++)
         {
             // Draw each piece of the tileset in the right position to build map
-            DrawTextureRec(tileset, tilesetRecs[tiles[y * tileCountX + x].value - 1], Vector2 {position.x + x * tileSize, position.y + y * tileSize}, WHITE);
-            DrawTextureRec(tileset, tilesetRecs[tiles[y * tileCountX + x].object - 1], Vector2{ position.x + x * tileSize, position.y + y * tileSize }, WHITE);
+            DrawTextureRec(tileset, tilesetRecs[_tiles[y * _tileCountX + x].value - 1], Vector2 { _position.x + x * _tileSize, _position.y + y * _tileSize }, WHITE);
+            DrawTextureRec(tileset, tilesetRecs[_tiles[y * _tileCountX + x].object - 1], Vector2{ _position.x + x * _tileSize, _position.y + y * _tileSize }, WHITE);
         }
     }
 }
