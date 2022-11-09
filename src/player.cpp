@@ -30,11 +30,11 @@ void Player::CheckState()
             break;
         case UP:
             _frameRec.x = (float)_currentFrame * (float)_texture.width / 2;
-            _frameRec.y = (float)_texture.height / 2;
+            _frameRec.y = 2 * ((float)_texture.height / 4);
             break;
         case DOWN:
             _frameRec.x = (float)_currentFrame * (float)_texture.width / 2;
-            _frameRec.y = (float)_texture.height;
+            _frameRec.y = 3 * ((float)_texture.height/4);
             break;
         case DEAD:
             break;
@@ -61,11 +61,42 @@ void Player::CheckCollisions(Vector2 oldPosition)
                 _tilemap.TileSize()
             };
 
-            // TODO: Review player padding for a better collision with walls
             if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].collider == 0) && CheckCollisionRecs(playerCollision, tilemapCollision))
             {
-                // There is a collision! Restore player position (undo player position update!) 
                 _position = oldPosition;
+            }
+        }
+    }
+}
+
+void Player::CheckCollisionsWithObject() 
+{
+    for (int y = 0; y < _tilemap.TileCountY(); y++)
+    {
+        for (int x = 0; x < _tilemap.TileCountX(); x++)
+        {
+            Rectangle playerCollision = {
+                _position.x,
+                _position.y,
+                _texture.width / 2,
+                _texture.height / 4
+            };
+            Rectangle tilemapCollision = {
+                _tilemap.Position().x + x * _tilemap.TileSize(),
+                _tilemap.Position().y + y * _tilemap.TileSize(),
+                _tilemap.TileSize(),
+                _tilemap.TileSize()
+            };
+
+            if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 30) && CheckCollisionRecs(playerCollision, tilemapCollision))
+            {
+                _score += 50;
+                _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
+            }
+            else if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 28) && CheckCollisionRecs(playerCollision, tilemapCollision))
+            {
+                _score += 200;
+                _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
             }
         }
     }
@@ -128,6 +159,7 @@ void Player::Update()
 
     Move();
     CheckCollisions(oldPosition);
+    CheckCollisionsWithObject();
 }
 
 
@@ -135,7 +167,6 @@ void Player::Update()
 void Player::Draw()
 {
     DrawTextureRec(_texture, _frameRec, _position, WHITE);
-    //DrawTexture(_texture, _position.x, _position.y, WHITE);
 }
 
 void Player::Reset()

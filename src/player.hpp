@@ -31,6 +31,7 @@ private:
     void Player::Move();
     void Player::CheckState();
     void Player::CheckCollisions(Vector2 oldPosition);
+    void Player::CheckCollisionsWithObject();
 
 public:
     Vector2 Player::BasePosition() const;
