@@ -37,6 +37,7 @@ void Player::CheckState()
             _frameRec.y = 3 * ((float)_texture.height/4);
             break;
         case DEAD:
+            // TODO
             break;
     }
 }
@@ -61,46 +62,30 @@ void Player::CheckCollisions(Vector2 oldPosition)
                 _tilemap.TileSize()
             };
 
+            // COLLISION WITH BORDERS
             if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].collider == 0) && CheckCollisionRecs(playerCollision, tilemapCollision))
             {
                 _position = oldPosition;
             }
-        }
-    }
-}
 
-void Player::CheckCollisionsWithObject() 
-{
-    for (int y = 0; y < _tilemap.TileCountY(); y++)
-    {
-        for (int x = 0; x < _tilemap.TileCountX(); x++)
-        {
-            Rectangle playerCollision = {
-                _position.x,
-                _position.y,
-                _texture.width / 2,
-                _texture.height / 4
-            };
-            Rectangle tilemapCollision = {
-                _tilemap.Position().x + x * _tilemap.TileSize(),
-                _tilemap.Position().y + y * _tilemap.TileSize(),
-                _tilemap.TileSize(),
-                _tilemap.TileSize()
-            };
-
-            if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 30) && CheckCollisionRecs(playerCollision, tilemapCollision))
+            // IF PLAYER IS IN THE SAME TILE AS AN OBJECT
+            if (_position.x == _tilemap.Position().x + x * _tilemap.TileSize() && _position.y == _tilemap.Position().y + y * _tilemap.TileSize()) 
             {
-                _score += 50;
-                _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
-            }
-            else if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 28) && CheckCollisionRecs(playerCollision, tilemapCollision))
-            {
-                _score += 200;
-                _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
+                if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 30))
+                {
+                    _score += 50;
+                    _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
+                }
+                else if((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 28))
+                {
+                    _score += 200;
+                    _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
+                }
             }
         }
     }
 }
+
 
 // PUBLIC METHODS
 void Player::Init(Tilemap tilemap) 
@@ -159,7 +144,6 @@ void Player::Update()
 
     Move();
     CheckCollisions(oldPosition);
-    CheckCollisionsWithObject();
 }
 
 
