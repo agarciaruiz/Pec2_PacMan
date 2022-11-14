@@ -26,7 +26,7 @@ void LogoScreen::Update()
 	if (framesCounter > 180)
 	{
 		finishScreen = 2;
-		framesCounter = 0;      // Reset counter... will be used later...
+		framesCounter = 0;
 	}
 }
 

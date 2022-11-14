@@ -48,13 +48,15 @@ void Player::CheckCollisions(Vector2 oldPosition)
     {
         for (int x = 0; x < _tilemap.TileCountX(); x++)
         {
-
+            // REPLACE BY GET BOUNDS
             Rectangle playerCollision = {
                 _position.x,
                 _position.y,
                 _texture.width / 2,
                 _texture.height / 4
             };
+
+            // REPLACE BY GET BOUNDS
             Rectangle tilemapCollision = {
                 _tilemap.Position().x + x * _tilemap.TileSize(),
                 _tilemap.Position().y + y * _tilemap.TileSize(),
@@ -73,12 +75,12 @@ void Player::CheckCollisions(Vector2 oldPosition)
             {
                 if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 30))
                 {
-                    _score += 50;
+                    _score += 10;
                     _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
                 }
                 else if((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 28))
                 {
-                    _score += 200;
+                    _score += 50;
                     _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
                 }
             }
@@ -140,7 +142,6 @@ void Player::Update()
         _dir = { 0, -1 };
         _currentState = UP;
     }
-    _previousState = _currentState;
 
     Move();
     CheckCollisions(oldPosition);

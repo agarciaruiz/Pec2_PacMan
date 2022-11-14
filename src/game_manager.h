@@ -3,8 +3,7 @@
 #include <time.h>
 #include "raylib.h"
 #include "player.hpp"
-#include "bullet.h"
-#include "enemy_manager.h"
+#include "ghost.h"
 #include "tilemap.h"
 
 class GameManager {
@@ -18,7 +17,7 @@ private:
 	Player player {};
 	Vector2 playerPos;
 
-	EnemyManager _enemyManager{};
+	Ghost _ghost;
 	Tilemap _tilemap{};
 	Image imTileset;
 	Texture2D texTileset;
@@ -27,7 +26,6 @@ private:
 	void GameManager::DrawUI();
 
 public:
-	EnemyManager EnemyManager() const;
 	void GameManager::Init();
 	void GameManager::Update();
 	void GameManager::Draw();

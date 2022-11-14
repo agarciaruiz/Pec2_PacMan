@@ -6,7 +6,7 @@ void Screen::Init()
 {
 	framesCounter = 0;
 	finishScreen = 0;
-	font = LoadFont("resources/mecha.png");
+	font = LoadFont("resources/Font/mecha.png");
 }
 
 void Screen::Update() {}

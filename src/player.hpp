@@ -24,7 +24,6 @@ private:
 
     enum State {IDLE, RIGHT, LEFT, DOWN, UP, DEAD};
     State _currentState = IDLE;
-    State _previousState = IDLE;
 
     Tilemap _tilemap;
 

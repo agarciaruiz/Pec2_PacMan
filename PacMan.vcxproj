@@ -170,12 +170,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\bullet.cpp" />
     <ClCompile Include="src\ending_screen.cpp" />
     <ClCompile Include="src\enemy_manager.cpp" />
     <ClCompile Include="src\game_manager.cpp" />
     <ClCompile Include="src\game_screen.cpp" />
-    <ClCompile Include="src\helicopter.cpp" />
     <ClCompile Include="src\logo_screen.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options_screen.cpp" />
@@ -183,16 +181,14 @@
     <ClCompile Include="src\screen.cpp" />
     <ClCompile Include="src\tilemap.cpp" />
     <ClCompile Include="src\title_screen.cpp" />
-    <ClCompile Include="src\trooper.cpp" />
+    <ClCompile Include="src\ghost.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\bullet.h" />
     <ClInclude Include="src\ending_screen.hpp" />
     <ClInclude Include="src\enemy_manager.h" />
     <ClInclude Include="src\game_manager.h" />
     <ClInclude Include="src\game_screen.hpp" />
     <ClInclude Include="src\global.h" />
-    <ClInclude Include="src\helicopter.h" />
     <ClInclude Include="src\logo_screen.hpp" />
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\options_screen.hpp" />
@@ -202,7 +198,7 @@
     <ClInclude Include="src\screen.hpp" />
     <ClInclude Include="src\tilemap.h" />
     <ClInclude Include="src\title_screen.hpp" />
-    <ClInclude Include="src\trooper.h" />
+    <ClInclude Include="src\ghost.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

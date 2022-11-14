@@ -9,9 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\bullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ending_screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -22,9 +19,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game_screen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\helicopter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\logo_screen.cpp">
@@ -45,7 +39,7 @@
     <ClCompile Include="src\title_screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\trooper.cpp">
+    <ClCompile Include="src\ghost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tilemap.cpp">
@@ -53,9 +47,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ending_screen.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -69,9 +60,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\helicopter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\logo_screen.hpp">
@@ -98,7 +86,7 @@
     <ClInclude Include="src\title_screen.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\trooper.h">
+    <ClInclude Include="src\ghost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\tilemap.h">

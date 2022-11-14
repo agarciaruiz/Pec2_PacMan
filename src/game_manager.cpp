@@ -1,7 +1,5 @@
 #include "game_manager.h"
 
-EnemyManager GameManager::EnemyManager() const { return _enemyManager; }
-
 void GameManager::Init()
 {
 	gamePaused = false;
@@ -15,7 +13,7 @@ void GameManager::Init()
 	_tilemap.Init(SCR_WIDTH, SCR_HEIGHT, 32);
 
 	player.Init(_tilemap);
-	//_enemyManager.Init();
+	_ghost.Init(_tilemap, player);
 }
 
 void GameManager::Update()
@@ -28,7 +26,7 @@ void GameManager::Update()
 		//UpdateTime();
 		// PLAYER UPDATE
 		player.Update();
-		//_enemyManager.Update();
+		_ghost.Update();
 	}
 }
 
@@ -42,7 +40,7 @@ void GameManager::Draw()
 	
 	// PLAYER DRAW
 	player.Draw();
-	//_enemyManager.Draw();
+	_ghost.Draw();
 }
 
 void GameManager::DrawUI()
