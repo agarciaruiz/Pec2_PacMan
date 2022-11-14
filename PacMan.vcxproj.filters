@@ -12,9 +12,6 @@
     <ClCompile Include="src\ending_screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\enemy_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\game_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ending_screen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\enemy_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game_manager.h">

@@ -12,12 +12,14 @@ private:
 	float _speed;
 	Vector2 _position;
 	Vector2 _dir;
+	Vector2 _tile;
+	Vector2 _targetTile {};
 	Rectangle _frameRec;
 	Image _image;
 	Texture2D _currentTexture;
 	Rectangle _bounds;
 	Tilemap _tilemap;
-	Player _player;
+	Player *_player;
 
 	enum State { CHASE, FRIGHTENED, EATEN};
 	State _currentState = CHASE;
@@ -32,7 +34,7 @@ public:
 	Vector2 Ghost::Position() const;
 	Rectangle Ghost::Bounds() const;
 
-	void Ghost::Init(Tilemap tilemap, Player player);
+	void Ghost::Init(Tilemap tilemap, Player *player);
 	void Ghost::Update();
 	void Ghost::Draw();
 	void Ghost::UnloadTextures();

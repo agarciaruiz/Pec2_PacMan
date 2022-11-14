@@ -13,7 +13,7 @@ void GameManager::Init()
 	_tilemap.Init(SCR_WIDTH, SCR_HEIGHT, 32);
 
 	player.Init(_tilemap);
-	_ghost.Init(_tilemap, player);
+	_ghost.Init(_tilemap, &player);
 }
 
 void GameManager::Update()

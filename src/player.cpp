@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-Vector2 Player::BasePosition() const { return _position; }
+Vector2 Player::Position() const { return _position; }
 int Player::Score() const { return _score; }
 int Player::Lifes() const { return _lifes; }
 Texture2D Player::Texture() const { return _texture; }

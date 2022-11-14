@@ -32,7 +32,7 @@ private:
     void Player::CheckCollisions(Vector2 oldPosition);
 
 public:
-    Vector2 Player::BasePosition() const;
+    Vector2 Player::Position() const;
     int Player::Score() const;
     int Player::Lifes() const;
     Texture2D Player::Texture() const;
