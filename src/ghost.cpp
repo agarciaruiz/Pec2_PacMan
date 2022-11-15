@@ -49,6 +49,9 @@ void Ghost::Move()
 		_tile = _targetTile;
 		_dir = newDir;
 	}
+
+	if (CheckCollisionWithPlayer())
+		_player->Die();
 }
 
 std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions)
@@ -89,6 +92,15 @@ Vector2 Ghost::CheckDistanceWithPlayer(std::vector<Vector2> directions)
 	return dir;
 }
 
+bool Ghost::CheckCollisionWithPlayer() 
+{
+	if(CheckCollisionRecs(GetBounds(), _player->GetBounds()))
+	{
+		return true;
+	}
+	return false;
+}
+
 Vector2 Ghost::Position() const { return _position; }
 Rectangle Ghost::Bounds() const { return _bounds; }
 
@@ -117,7 +129,8 @@ void Ghost::Draw()
 	DrawTextureRec(_currentTexture, _frameRec, _position, WHITE);
 }
 
-void Ghost::UnloadTextures()
+void Ghost::Reset()
 {
+	UnloadImage(_image);
 	UnloadTexture(_currentTexture);
 }

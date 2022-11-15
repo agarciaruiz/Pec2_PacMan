@@ -37,7 +37,8 @@ void Player::CheckState()
             _frameRec.y = 3 * ((float)_texture.height/4);
             break;
         case DEAD:
-            // TODO
+            _deadFrameRec.x = (float)_currentFrame * (float)_deadTexture.width / 12;
+            _deadFrameRec.y = 0;
             break;
     }
 }
@@ -48,24 +49,8 @@ void Player::CheckCollisions(Vector2 oldPosition)
     {
         for (int x = 0; x < _tilemap.TileCountX(); x++)
         {
-            // REPLACE BY GET BOUNDS
-            Rectangle playerCollision = {
-                _position.x,
-                _position.y,
-                _texture.width / 2,
-                _texture.height / 4
-            };
-
-            // REPLACE BY GET BOUNDS
-            Rectangle tilemapCollision = {
-                _tilemap.Position().x + x * _tilemap.TileSize(),
-                _tilemap.Position().y + y * _tilemap.TileSize(),
-                _tilemap.TileSize(),
-                _tilemap.TileSize()
-            };
-
             // COLLISION WITH BORDERS
-            if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].collider == 0) && CheckCollisionRecs(playerCollision, tilemapCollision))
+            if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].collider == 0) && CheckCollisionRecs(GetBounds(), _tilemap.GetBounds(x, y)))
             {
                 _position = oldPosition;
             }
@@ -94,17 +79,29 @@ void Player::Init(Tilemap tilemap)
 {
     _score = 0;
     _tilemap = tilemap;
-    _position = Vector2{tilemap.Position().x + 13 * tilemap.TileSize(), tilemap.Position().y + 17 * tilemap.TileSize()};
+    _initialTile = { 13, 17 };
+    _position = Vector2{tilemap.Position().x + _initialTile.x * tilemap.TileSize(), tilemap.Position().y + _initialTile.y * tilemap.TileSize()};
     _dir = Vector2{ 0, 0 };
     _moveSpeed = 2;
     _lifes = 3;
+    _currentState = IDLE;
+
     _image = LoadImage("resources/Game/PacMan.png");
     _texture = LoadTextureFromImage(_image);
     _frameRec = { 0.0f, 0.0f, (float)_texture.width / 2, (float)_texture.height / 4};
 
+    _deadImage = LoadImage("resources/Game/PacManDead.png");
+    _deadTexture = LoadTextureFromImage(_deadImage);
+    _deadFrameRec = { 0.0f, 0.0f, (float)_deadTexture.width / 12, (float)_deadTexture.height};
+
     _currentFrame = 0;
     _framesCounter = 0;
     _framesSpeed = 8;
+}
+
+Rectangle Player::GetBounds()
+{
+    return Rectangle{ _position.x, _position.y, (float)_texture.width / 2, (float)_texture.height / 4 };
 }
 
 void Player::Update()
@@ -117,10 +114,25 @@ void Player::Update()
         _framesCounter = 0;
         _currentFrame++;
 
-        if (_currentFrame > 1) _currentFrame = 0;
+        if(_currentState != DEAD)
+        {
+            if (_currentFrame > 1) _currentFrame = 0;
+        }
+        else 
+        {
+            if (_currentFrame > 11)
+            {
+                _currentFrame = 0;
+                _dir = { 0, 0 };
+                _position = Vector2{ _tilemap.Position().x + _initialTile.x * _tilemap.TileSize(), _tilemap.Position().y + _initialTile.y * _tilemap.TileSize() };
+                _currentState = IDLE;
+            }
+        }
 
         CheckState();
     }
+
+    if (_currentState == DEAD) return;
 
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
     {
@@ -147,15 +159,29 @@ void Player::Update()
     CheckCollisions(oldPosition);
 }
 
+void Player::Die() 
+{
+    if (_currentState == DEAD) return;
 
+    _currentState = DEAD;
+    _lifes--;
+}
 
 void Player::Draw()
 {
-    DrawTextureRec(_texture, _frameRec, _position, WHITE);
+    if(_currentState != DEAD)
+        DrawTextureRec(_texture, _frameRec, _position, WHITE);
+    else
+        DrawTextureRec(_deadTexture, _deadFrameRec, _position, WHITE);
 }
 
 void Player::Reset()
 {
+    UnloadImage(_image);
     UnloadTexture(_texture);
+    UnloadImage(_deadImage);
+    UnloadTexture(_deadTexture);
+
+
     _score = 0;
 }

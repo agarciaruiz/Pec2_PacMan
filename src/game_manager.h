@@ -10,6 +10,7 @@ class GameManager {
 private:
 	// Game settings
 	bool gamePaused;
+	bool gameEnded;
 	Image playerLifesImage;
 	Texture2D playerLifesTexture;
 
@@ -26,6 +27,7 @@ private:
 	void GameManager::DrawUI();
 
 public:
+	bool GameManager::GameEnded() const;
 	void GameManager::Init();
 	void GameManager::Update();
 	void GameManager::Draw();

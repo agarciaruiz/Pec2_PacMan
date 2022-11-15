@@ -10,6 +10,7 @@ class Player {
 private:
     Vector2 _position;
     Vector2 _dir;
+    Vector2 _initialTile;
     float _moveSpeed;
     int _score;
     int _lifes;
@@ -18,12 +19,16 @@ private:
     Texture2D _texture;
     Rectangle _frameRec;
 
+    Image _deadImage;
+    Texture2D _deadTexture;
+    Rectangle _deadFrameRec;
+
     int _currentFrame;
     int _framesCounter;
     int _framesSpeed;
 
     enum State {IDLE, RIGHT, LEFT, DOWN, UP, DEAD};
-    State _currentState = IDLE;
+    State _currentState;
 
     Tilemap _tilemap;
 
@@ -40,6 +45,8 @@ public:
     void Player::Init(Tilemap tilemap);
     void Player::Update();
     void Player::Draw();
+    void Player::Die();
     void Player::Reset();
+    Rectangle Player::GetBounds();
 };
 #endif

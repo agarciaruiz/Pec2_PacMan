@@ -17,8 +17,8 @@ void GameScreen::Update()
 {
 	_gameManager.Update();
 	// Game end condition
-	/*if (_gameManager.EnemyManager().LandedTroopers() == 7)
-			finishScreen = 5;*/
+	if (_gameManager.GameEnded())
+			finishScreen = 5;
 }
 
 void GameScreen::Draw()

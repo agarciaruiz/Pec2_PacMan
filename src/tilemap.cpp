@@ -1,5 +1,10 @@
 #include "tilemap.h"
 
+
+Rectangle Tilemap::GetBounds(int x, int y) const 
+{
+    return Rectangle{ _position.x + x * _tileSize, _position.y + y * _tileSize, (float)_tileSize, (float)_tileSize};
+}
 Vector2 Tilemap::Position() const { return _position; }
 int Tilemap::TileSize() const { return _tileSize; }
 int Tilemap::TileCountX() const { return _tileCountX; }

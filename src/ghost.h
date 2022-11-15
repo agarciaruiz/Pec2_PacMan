@@ -29,6 +29,7 @@ private:
 	void Ghost::Move();
 	std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions);
 	Vector2 Ghost::CheckDistanceWithPlayer(std::vector<Vector2> directions);
+	bool Ghost::CheckCollisionWithPlayer();
 
 public:
 	Vector2 Ghost::Position() const;
@@ -37,6 +38,6 @@ public:
 	void Ghost::Init(Tilemap tilemap, Player *player);
 	void Ghost::Update();
 	void Ghost::Draw();
-	void Ghost::UnloadTextures();
+	void Ghost::Reset();
 };
 #endif

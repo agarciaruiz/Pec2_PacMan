@@ -42,6 +42,7 @@ private:
     Vector2 _position;
 
 public:
+    Rectangle Tilemap::GetBounds(int x, int y) const;
     Vector2 Tilemap::Position() const;
     int Tilemap::TileSize() const;
     int Tilemap::TileCountX() const;
