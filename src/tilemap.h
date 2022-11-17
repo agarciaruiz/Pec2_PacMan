@@ -48,6 +48,7 @@ public:
     int Tilemap::TileCountX() const;
     int Tilemap::TileCountY() const;
     Tile* Tilemap::Tiles() const;
+    int numOfPills;
 
 	void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap);
     void Tilemap::Init(float scrW, float scrH, int tileSize);

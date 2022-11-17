@@ -58,6 +58,7 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* 
                 _tiles[counter].object = temp;
                 counter++;
             }
+            numOfPills = counter;
             fclose(objectsFile);
 
             // Read values from text file
@@ -76,17 +77,6 @@ void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* 
             }
 
             fclose(collidersFile);
-
-#if DEBUG   // print tilemap information loaded
-            for (int j = 0; j < _tileCountY; j++)
-            {
-                for (int i = 0; i < _tileCountX; i++)
-                {
-                    printf("%i ", _tiles[j * _tileCountX + i].collider);
-                }
-                printf("\n");
-            }
-#endif
         }
     }
 }
