@@ -12,6 +12,7 @@ private:
 	float _speed;
 	Vector2 _position;
 	Vector2 _dir;
+	Vector2 _initialTile;
 	Vector2 _tile;
 	Vector2 _targetTile {};
 	Rectangle _frameRec;
@@ -30,6 +31,7 @@ private:
 	std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions);
 	Vector2 Ghost::CheckDistanceWithPlayer(std::vector<Vector2> directions);
 	bool Ghost::CheckCollisionWithPlayer();
+	void Ghost::ResetPosition();
 
 public:
 	Vector2 Ghost::Position() const;

@@ -14,6 +14,7 @@ private:
     float _moveSpeed;
     int _score;
     int _lifes;
+    bool _isDead;
 
     Image _image;
     Texture2D _texture;
@@ -37,6 +38,7 @@ private:
     void Player::CheckCollisions(Vector2 oldPosition);
 
 public:
+    bool Player::IsDead() const;
     Vector2 Player::Position() const;
     int Player::Score() const;
     int Player::Lifes() const;

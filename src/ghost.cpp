@@ -12,15 +12,18 @@ void Ghost::CheckState()
 		case CHASE:
 			_frameRec.x = 0;
 			_frameRec.y = 0;
-			Move();
+			if(!_player->IsDead())
+				Move();
 			break;
 		case FRIGHTENED:
 			_frameRec.x = 8 * (float)_currentTexture.width / 12;
 			_frameRec.y = 0;
+			// TODO LOGIC
 			break;
 		case EATEN:
 			_frameRec.x = 8 * (float)_currentTexture.width / 12;
 			_frameRec.y = (float)_currentTexture.height / 4;
+			// TODO LOGIC
 			break;
 	}
 }
@@ -76,7 +79,7 @@ Vector2 Ghost::CheckDistanceWithPlayer(std::vector<Vector2> directions)
 	int playerTileY = ((_player->Position().y - _tilemap.Position().y) / _tilemap.TileSize());
 
 	float currentDistance = INFINITY;
-	Vector2 dir;
+	Vector2 dir{};
 	for (auto it = directions.begin(); it != directions.end(); it++) 
 	{
 		int ghostNewTileX = _tile.x + it->x;
@@ -96,9 +99,17 @@ bool Ghost::CheckCollisionWithPlayer()
 {
 	if(CheckCollisionRecs(GetBounds(), _player->GetBounds()))
 	{
+		ResetPosition();
 		return true;
 	}
 	return false;
+}
+
+void Ghost::ResetPosition() 
+{
+	this->_position = Vector2{ _tilemap.Position().x + _initialTile.x * _tilemap.TileSize(), _tilemap.Position().y + _initialTile.y * _tilemap.TileSize() };
+	_tile = _initialTile;
+	_dir = { 0, -1 };
 }
 
 Vector2 Ghost::Position() const { return _position; }
@@ -109,7 +120,8 @@ void Ghost::Init(Tilemap tilemap, Player *player)
     _tilemap = tilemap;
 	_player = player;
 	_dir = {0, -1};
-	_tile = { 13, 9 };
+	_initialTile = { 13, 9 };
+	_tile = _initialTile;
 	this->_position = Vector2{ tilemap.Position().x + _tile.x * tilemap.TileSize(), tilemap.Position().y + _tile.y * tilemap.TileSize() };
 	this->_bounds = GetBounds();
 	_speed = 2;

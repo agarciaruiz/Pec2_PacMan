@@ -1,5 +1,6 @@
 #include "player.hpp"
 
+bool Player::IsDead() const { return _isDead; }
 Vector2 Player::Position() const { return _position; }
 int Player::Score() const { return _score; }
 int Player::Lifes() const { return _lifes; }
@@ -62,11 +63,13 @@ void Player::CheckCollisions(Vector2 oldPosition)
                 {
                     _score += 10;
                     _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
+                    _tilemap.numOfPills--;
                 }
                 else if((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 28))
                 {
                     _score += 50;
                     _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
+                    _tilemap.numOfPills--;
                 }
             }
         }
@@ -85,6 +88,7 @@ void Player::Init(Tilemap tilemap)
     _moveSpeed = 2;
     _lifes = 3;
     _currentState = IDLE;
+    _isDead = false;
 
     _image = LoadImage("resources/Game/PacMan.png");
     _texture = LoadTextureFromImage(_image);
@@ -126,6 +130,7 @@ void Player::Update()
                 _dir = { 0, 0 };
                 _position = Vector2{ _tilemap.Position().x + _initialTile.x * _tilemap.TileSize(), _tilemap.Position().y + _initialTile.y * _tilemap.TileSize() };
                 _currentState = IDLE;
+                _isDead = false;
             }
         }
 
@@ -163,6 +168,7 @@ void Player::Die()
 {
     if (_currentState == DEAD) return;
 
+    _isDead = true;
     _currentState = DEAD;
     _lifes--;
 }
