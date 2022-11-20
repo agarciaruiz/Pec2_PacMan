@@ -4,6 +4,7 @@
 void GameScreen::ResetScreen()
 {
 	_gameManager->ResetGame();
+	delete(_gameManager);
 }
 
 void GameScreen::Init()

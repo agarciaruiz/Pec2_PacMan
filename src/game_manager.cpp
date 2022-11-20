@@ -9,6 +9,7 @@ GameManager::GameManager() : gamePaused {false}, gameEnded {false}, win {false}
 {
 	playerLifesImage = LoadImage("resources/Game/IconLifes.png");
 	playerLifesTexture = LoadTextureFromImage(playerLifesImage);
+	UnloadImage(playerLifesImage);
 	imTileset = LoadImage("resources/TileMap/PacManTileset.png");
 	texTileset = LoadTextureFromImage(imTileset);
 	UnloadImage(imTileset);
@@ -85,7 +86,10 @@ void GameManager::DrawUI()
 
 void GameManager::ResetGame() 
 {
+	_gameManager = NULL;
+
+	UnloadTexture(playerLifesTexture);
+	UnloadTexture(texTileset);
 	player.Reset();
 	_ghost.Reset();
-	gameEnded = false;
 }

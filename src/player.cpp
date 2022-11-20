@@ -97,10 +97,12 @@ void Player::Init(Tilemap tilemap)
 
     _image = LoadImage("resources/Game/PacMan.png");
     _texture = LoadTextureFromImage(_image);
+    UnloadImage(_image);
     _frameRec = { 0.0f, 0.0f, (float)_texture.width / 2, (float)_texture.height / 4};
 
     _deadImage = LoadImage("resources/Game/PacManDead.png");
     _deadTexture = LoadTextureFromImage(_deadImage);
+    UnloadImage(_deadImage);
     _deadFrameRec = { 0.0f, 0.0f, (float)_deadTexture.width / 12, (float)_deadTexture.height};
 
     _currentFrame = 0;
@@ -192,11 +194,8 @@ void Player::GhostEaten()
 
 void Player::Reset()
 {
-    UnloadImage(_image);
     UnloadTexture(_texture);
-    UnloadImage(_deadImage);
     UnloadTexture(_deadTexture);
-
 
     _score = 0;
 }

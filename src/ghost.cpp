@@ -184,6 +184,7 @@ void Ghost::Init(Tilemap tilemap, Player *player)
 
 	_image = LoadImage("resources/Game/Enemies.png");
 	_currentTexture = LoadTextureFromImage(_image);
+	UnloadImage(_image);
 	_frameRec = { 0.0f, 0.0f, (float)_currentTexture.width / 12, (float)_currentTexture.height / 4 };
 }
 
@@ -222,6 +223,5 @@ void Ghost::Draw()
 
 void Ghost::Reset()
 {
-	UnloadImage(_image);
 	UnloadTexture(_currentTexture);
 }
