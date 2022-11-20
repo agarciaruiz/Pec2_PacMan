@@ -16,6 +16,7 @@ void GameScreen::Init()
 void GameScreen::Update()
 {
 	_gameManager.Update();
+	// TO DO -> CHANGE TEXT ON WIN CONDITION
 	// Game end condition
 	if (_gameManager.GameEnded())
 			finishScreen = 5;

@@ -1,11 +1,13 @@
 #include "game_manager.h"
 
 bool GameManager::GameEnded() const { return gameEnded; }
+bool GameManager::Win() const { return win; }
 
 void GameManager::Init()
 {
 	gamePaused = false;
 	gameEnded = false;
+	win = false;
 	playerLifesImage = LoadImage("resources/Game/IconLifes.png");
 	playerLifesTexture = LoadTextureFromImage(playerLifesImage);
 	imTileset = LoadImage("resources/TileMap/PacManTileset.png");
@@ -26,8 +28,17 @@ void GameManager::Update()
 	// Press enter or tap to change to ENDING screen
 	if (!gamePaused)
 	{
-		if (player.Lifes() == 0)
+		if (player.Lifes() == 0) 
+		{
 			gameEnded = true;
+		}
+		
+		if(_tilemap.numOfPills == 0) 
+		{
+			gameEnded = true;
+			win = true;
+		}
+
 		// PLAYER UPDATE
 		player.Update();
 		_ghost.Update();

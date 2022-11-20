@@ -138,7 +138,6 @@ void Player::Update()
                 _isDead = false;
             }
         }
-
         CheckState();
     }
 

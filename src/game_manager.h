@@ -11,6 +11,7 @@ private:
 	// Game settings
 	bool gamePaused;
 	bool gameEnded;
+	bool win;
 	Image playerLifesImage;
 	Texture2D playerLifesTexture;
 
@@ -28,6 +29,7 @@ private:
 
 public:
 	bool GameManager::GameEnded() const;
+	bool GameManager::Win() const;
 	void GameManager::Init();
 	void GameManager::Update();
 	void GameManager::Draw();
