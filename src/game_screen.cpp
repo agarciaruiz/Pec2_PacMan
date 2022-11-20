@@ -3,28 +3,28 @@
 // Private methods
 void GameScreen::ResetScreen()
 {
-	_gameManager.ResetGame();
+	_gameManager->ResetGame();
 }
 
 void GameScreen::Init()
 {
+	_gameManager = GameManager::GetInstance();
 	framesCounter = 0;
 	finishScreen = 0;
-	_gameManager.Init();
 }
 
 void GameScreen::Update()
 {
-	_gameManager.Update();
+	_gameManager->Update();
 	// TO DO -> CHANGE TEXT ON WIN CONDITION
 	// Game end condition
-	if (_gameManager.GameEnded())
+	if (_gameManager->GameEnded())
 			finishScreen = 5;
 }
 
 void GameScreen::Draw()
 {
-	_gameManager.Draw();
+	_gameManager->Draw();
 }
 
 void GameScreen::Unload()

@@ -8,6 +8,11 @@
 
 class GameManager {
 private:
+
+	GameManager::GameManager();
+	static GameManager* _gameManager;
+
+
 	// Game settings
 	bool gamePaused;
 	bool gameEnded;
@@ -17,7 +22,6 @@ private:
 
 	// Player settings
 	Player player {};
-	Vector2 playerPos;
 
 	Ghost _ghost;
 	Tilemap _tilemap{};
@@ -28,8 +32,11 @@ private:
 	void GameManager::DrawUI();
 
 public:
+
 	bool GameManager::GameEnded() const;
 	bool GameManager::Win() const;
+
+	static GameManager* GameManager::GetInstance();
 	void GameManager::Init();
 	void GameManager::Update();
 	void GameManager::Draw();

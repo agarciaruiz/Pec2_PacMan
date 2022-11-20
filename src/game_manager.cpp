@@ -2,12 +2,11 @@
 
 bool GameManager::GameEnded() const { return gameEnded; }
 bool GameManager::Win() const { return win; }
+GameManager* GameManager::_gameManager = NULL;
 
-void GameManager::Init()
+
+GameManager::GameManager() : gamePaused {false}, gameEnded {false}, win {false}
 {
-	gamePaused = false;
-	gameEnded = false;
-	win = false;
 	playerLifesImage = LoadImage("resources/Game/IconLifes.png");
 	playerLifesTexture = LoadTextureFromImage(playerLifesImage);
 	imTileset = LoadImage("resources/TileMap/PacManTileset.png");
@@ -19,6 +18,13 @@ void GameManager::Init()
 
 	player.Init(_tilemap);
 	_ghost.Init(_tilemap, &player);
+}
+
+GameManager* GameManager::GetInstance()
+{
+	if (!_gameManager)
+		_gameManager = new GameManager();
+	return _gameManager;
 }
 
 void GameManager::Update()

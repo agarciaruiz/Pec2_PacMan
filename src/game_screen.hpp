@@ -9,7 +9,7 @@
 
 class GameScreen : public Screen {
 private:
-	GameManager _gameManager{};
+	GameManager* _gameManager;
 	// Private methods
 	void GameScreen::ResetScreen();
 
