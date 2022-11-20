@@ -22,14 +22,19 @@ private:
 	Tilemap _tilemap;
 	Player *_player;
 
+	float _frightenedCounter;
+	float _frightenedTimeout;
+
 	enum State { CHASE, FRIGHTENED, EATEN};
 	State _currentState = CHASE;
 
 	Rectangle Ghost::GetBounds();
 	void Ghost::CheckState();
 	void Ghost::Move();
+	void Ghost::Runaway();
 	std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions);
 	Vector2 Ghost::CheckDistanceWithPlayer(std::vector<Vector2> directions);
+	Vector2 Ghost::CheckDistanceWithTargetTile(std::vector<Vector2> directions);
 	bool Ghost::CheckCollisionWithPlayer();
 	void Ghost::ResetPosition();
 

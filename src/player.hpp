@@ -14,6 +14,7 @@ private:
     float _moveSpeed;
     int _score;
     int _lifes;
+    bool _bigPill;
     bool _isDead;
 
     Image _image;
@@ -42,6 +43,7 @@ public:
     Vector2 Player::Position() const;
     int Player::Score() const;
     int Player::Lifes() const;
+    bool Player::BigPill() const;
     Texture2D Player::Texture() const;
 
     void Player::Init(Tilemap tilemap);

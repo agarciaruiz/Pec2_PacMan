@@ -4,6 +4,7 @@ bool Player::IsDead() const { return _isDead; }
 Vector2 Player::Position() const { return _position; }
 int Player::Score() const { return _score; }
 int Player::Lifes() const { return _lifes; }
+bool Player::BigPill() const { return _bigPill; }
 Texture2D Player::Texture() const { return _texture; }
 
 // PRIVATE METHODS
@@ -64,12 +65,14 @@ void Player::CheckCollisions(Vector2 oldPosition)
                     _score += 10;
                     _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
                     _tilemap.numOfPills--;
+                    _bigPill = false;
                 }
                 else if((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 28))
                 {
                     _score += 50;
                     _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
                     _tilemap.numOfPills--;
+                    _bigPill = true;
                 }
             }
         }
@@ -82,6 +85,7 @@ void Player::Init(Tilemap tilemap)
 {
     _score = 0;
     _tilemap = tilemap;
+
     _initialTile = { 13, 17 };
     _position = Vector2{tilemap.Position().x + _initialTile.x * tilemap.TileSize(), tilemap.Position().y + _initialTile.y * tilemap.TileSize()};
     _dir = Vector2{ 0, 0 };
@@ -89,6 +93,7 @@ void Player::Init(Tilemap tilemap)
     _lifes = 3;
     _currentState = IDLE;
     _isDead = false;
+    _bigPill = false;
 
     _image = LoadImage("resources/Game/PacMan.png");
     _texture = LoadTextureFromImage(_image);

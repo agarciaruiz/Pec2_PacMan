@@ -18,7 +18,7 @@ void Ghost::CheckState()
 		case FRIGHTENED:
 			_frameRec.x = 8 * (float)_currentTexture.width / 12;
 			_frameRec.y = 0;
-			// TODO LOGIC
+			Move();
 			break;
 		case EATEN:
 			_frameRec.x = 8 * (float)_currentTexture.width / 12;
@@ -41,7 +41,12 @@ void Ghost::Move()
 		possibleDirections = { {-1, 0}, {0, -1}, {0, 1} };
 
 	std::vector<Vector2> newDirections = CheckCollisions(possibleDirections);
-	Vector2 newDir = CheckDistanceWithPlayer(newDirections);
+
+	Vector2 newDir{};
+	if(_currentState == CHASE)
+		newDir = CheckDistanceWithPlayer(newDirections);
+	else if(_currentState == FRIGHTENED)
+		newDir = CheckDistanceWithTargetTile(newDirections);
 
 	_position.x += newDir.x * _speed;
 	_position.y += newDir.y * _speed;
@@ -53,9 +58,10 @@ void Ghost::Move()
 		_dir = newDir;
 	}
 
-	if (CheckCollisionWithPlayer())
+	if (_currentState == CHASE && CheckCollisionWithPlayer())
 		_player->Die();
 }
+
 
 std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions)
 {
@@ -95,6 +101,27 @@ Vector2 Ghost::CheckDistanceWithPlayer(std::vector<Vector2> directions)
 	return dir;
 }
 
+Vector2 Ghost::CheckDistanceWithTargetTile(std::vector<Vector2> directions)
+{
+	Vector2 targetTile = { 25, 1 };
+
+	float currentDistance = INFINITY;
+	Vector2 dir{};
+	for (auto it = directions.begin(); it != directions.end(); it++)
+	{
+		int ghostNewTileX = _tile.x + it->x;
+		int ghostNewTileY = _tile.y + it->y;
+		float distance = pow((targetTile.x - ghostNewTileX), 2) + pow((targetTile.y - ghostNewTileY), 2);
+		if (distance < currentDistance)
+		{
+			currentDistance = distance;
+			dir = { it->x, it->y };
+			_targetTile = { _tile.x + it->x, _tile.y + it->y };
+		}
+	}
+	return dir;
+}
+
 bool Ghost::CheckCollisionWithPlayer() 
 {
 	if(CheckCollisionRecs(GetBounds(), _player->GetBounds()))
@@ -125,6 +152,8 @@ void Ghost::Init(Tilemap tilemap, Player *player)
 	this->_position = Vector2{ tilemap.Position().x + _tile.x * tilemap.TileSize(), tilemap.Position().y + _tile.y * tilemap.TileSize() };
 	this->_bounds = GetBounds();
 	_speed = 2;
+	_frightenedCounter = 0;
+	_frightenedTimeout = 10;
 
 	_image = LoadImage("resources/Game/Enemies.png");
 	_currentTexture = LoadTextureFromImage(_image);
@@ -133,6 +162,21 @@ void Ghost::Init(Tilemap tilemap, Player *player)
 
 void Ghost::Update()
 {
+	if (_player->BigPill()) 
+	{
+		_currentState = FRIGHTENED;
+	}
+
+	if (_currentState == FRIGHTENED && _currentState != EATEN) 
+	{
+		_frightenedCounter += GetFrameTime();
+		if (_frightenedCounter >= _frightenedTimeout) 
+		{
+			_currentState = CHASE;
+			_frightenedCounter = 0;
+		}
+	}
+
 	CheckState();
 }
 
