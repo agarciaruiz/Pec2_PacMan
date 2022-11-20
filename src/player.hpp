@@ -51,6 +51,7 @@ public:
     void Player::Draw();
     void Player::Die();
     void Player::Reset();
+    void Player::GhostEaten();
     Rectangle Player::GetBounds();
 };
 #endif

@@ -23,7 +23,7 @@ void Ghost::CheckState()
 		case EATEN:
 			_frameRec.x = 8 * (float)_currentTexture.width / 12;
 			_frameRec.y = (float)_currentTexture.height / 4;
-			// TODO LOGIC
+			Move();
 			break;
 	}
 }
@@ -43,10 +43,12 @@ void Ghost::Move()
 	std::vector<Vector2> newDirections = CheckCollisions(possibleDirections);
 
 	Vector2 newDir{};
-	if(_currentState == CHASE)
+	if (_currentState == CHASE)
 		newDir = CheckDistanceWithPlayer(newDirections);
-	else if(_currentState == FRIGHTENED)
+	else if (_currentState == FRIGHTENED)
 		newDir = CheckDistanceWithTargetTile(newDirections);
+	else if (_currentState == EATEN)
+		newDir = CheckDistanceWithHomeTile(newDirections);
 
 	_position.x += newDir.x * _speed;
 	_position.y += newDir.y * _speed;
@@ -60,8 +62,13 @@ void Ghost::Move()
 
 	if (_currentState == CHASE && CheckCollisionWithPlayer())
 		_player->Die();
-}
+	else if(_currentState == FRIGHTENED && CheckCollisionWithPlayer())
+	{
+		_currentState = EATEN;
+		_player->GhostEaten();
+	}
 
+}
 
 std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions)
 {
@@ -122,11 +129,31 @@ Vector2 Ghost::CheckDistanceWithTargetTile(std::vector<Vector2> directions)
 	return dir;
 }
 
+Vector2 Ghost::CheckDistanceWithHomeTile(std::vector<Vector2> directions)
+{
+	float currentDistance = INFINITY;
+	Vector2 dir{};
+	for (auto it = directions.begin(); it != directions.end(); it++)
+	{
+		int ghostNewTileX = _tile.x + it->x;
+		int ghostNewTileY = _tile.y + it->y;
+		float distance = pow((_initialTile.x - ghostNewTileX), 2) + pow((_initialTile.y - ghostNewTileY), 2);
+		if (distance < currentDistance)
+		{
+			currentDistance = distance;
+			dir = { it->x, it->y };
+			_targetTile = { _tile.x + it->x, _tile.y + it->y };
+		}
+	}
+	return dir;
+}
+
 bool Ghost::CheckCollisionWithPlayer() 
 {
 	if(CheckCollisionRecs(GetBounds(), _player->GetBounds()))
 	{
-		ResetPosition();
+		if(_currentState == CHASE)
+			ResetPosition();
 		return true;
 	}
 	return false;
@@ -174,6 +201,14 @@ void Ghost::Update()
 		{
 			_currentState = CHASE;
 			_frightenedCounter = 0;
+		}
+	}
+	else if (_currentState == EATEN) 
+	{
+		Vector2 initPos = { _tilemap.Position().x + _initialTile.x * _tilemap.TileSize(), _tilemap.Position().y + _initialTile.y * _tilemap.TileSize() };
+		if (_position.x == initPos.x && _position.y == initPos.y) 
+		{
+			_currentState = CHASE;
 		}
 	}
 

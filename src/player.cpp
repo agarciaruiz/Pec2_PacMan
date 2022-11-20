@@ -186,6 +186,11 @@ void Player::Draw()
         DrawTextureRec(_deadTexture, _deadFrameRec, _position, WHITE);
 }
 
+void Player::GhostEaten() 
+{
+    _score += 200;
+}
+
 void Player::Reset()
 {
     UnloadImage(_image);
