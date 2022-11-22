@@ -1,15 +1,9 @@
 #include "game_screen.hpp"
 
-// Private methods
-void GameScreen::ResetScreen()
-{
-	_gameManager->ResetGame();
-	delete(_gameManager);
-}
-
 void GameScreen::Init()
 {
 	_gameManager = GameManager::GetInstance();
+	_gameManager->Init();
 	framesCounter = 0;
 	finishScreen = 0;
 }
@@ -30,5 +24,5 @@ void GameScreen::Draw()
 
 void GameScreen::Unload()
 {
-	ResetScreen();
+	_gameManager->Unload();
 }

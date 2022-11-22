@@ -5,8 +5,21 @@ bool GameManager::Win() const { return win; }
 GameManager* GameManager::_gameManager = NULL;
 
 
-GameManager::GameManager() : gamePaused {false}, gameEnded {false}, win {false}
+GameManager::GameManager() {}
+
+GameManager* GameManager::GetInstance()
 {
+	if (!_gameManager)
+		_gameManager = new GameManager();
+	return _gameManager;
+}
+
+void GameManager::Init()
+{
+	gamePaused = false;
+	gameEnded = false;
+	win = false;
+
 	playerLifesImage = LoadImage("resources/Game/IconLifes.png");
 	playerLifesTexture = LoadTextureFromImage(playerLifesImage);
 	UnloadImage(playerLifesImage);
@@ -16,16 +29,8 @@ GameManager::GameManager() : gamePaused {false}, gameEnded {false}, win {false}
 
 	_tilemap.Load("resources/TileMap/tilemap.txt", "resources/TileMap/tilemap_collisions.txt", "resources/TileMap/objects.txt");
 	_tilemap.Init(SCR_WIDTH, SCR_HEIGHT, 32);
-
 	player.Init(_tilemap);
 	_ghost.Init(_tilemap, &player);
-}
-
-GameManager* GameManager::GetInstance()
-{
-	if (!_gameManager)
-		_gameManager = new GameManager();
-	return _gameManager;
 }
 
 void GameManager::Update()
@@ -84,10 +89,8 @@ void GameManager::DrawUI()
 	DrawText(score, 20, 10, 20, GRAY);
 }
 
-void GameManager::ResetGame() 
+void GameManager::Unload() 
 {
-	_gameManager = NULL;
-
 	UnloadTexture(playerLifesTexture);
 	UnloadTexture(texTileset);
 	player.Reset();

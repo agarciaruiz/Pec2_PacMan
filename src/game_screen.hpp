@@ -10,9 +10,6 @@
 class GameScreen : public Screen {
 private:
 	GameManager* _gameManager;
-	// Private methods
-	void GameScreen::ResetScreen();
-
 public:
 	void GameScreen::Init() override;
 	void GameScreen::Update() override;

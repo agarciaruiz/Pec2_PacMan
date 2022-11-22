@@ -40,7 +40,7 @@ public:
 	void GameManager::Init();
 	void GameManager::Update();
 	void GameManager::Draw();
-	void GameManager::ResetGame();
+	void GameManager::Unload();
 };
 
 #endif // !GAME_MANAGER_H
