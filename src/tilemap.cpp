@@ -1,5 +1,6 @@
 #include "tilemap.h"
 
+Tilemap* Tilemap::_tilemap = NULL;
 
 Rectangle Tilemap::GetBounds(int x, int y) const 
 {
@@ -10,6 +11,16 @@ int Tilemap::TileSize() const { return _tileSize; }
 int Tilemap::TileCountX() const { return _tileCountX; }
 int Tilemap::TileCountY() const { return _tileCountY; }
 Tilemap::Tile* Tilemap::Tiles() const { return _tiles; }
+
+Tilemap::Tilemap(){}
+
+
+Tilemap* Tilemap::GetInstance() 
+{
+    if (!_tilemap)
+        _tilemap = new Tilemap();
+    return _tilemap;
+}
 
 void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap) {
     const char* fileExt;

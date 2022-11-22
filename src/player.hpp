@@ -8,6 +8,8 @@
 
 class Player {
 private:
+    static Player* _player;
+
     Vector2 _position;
     Vector2 _dir;
     Vector2 _initialTile;
@@ -32,8 +34,10 @@ private:
     enum State {IDLE, RIGHT, LEFT, DOWN, UP, DEAD};
     State _currentState;
 
-    Tilemap _tilemap;
+    Tilemap* _tilemap;
 
+
+    Player::Player();
     void Player::Move();
     void Player::CheckState();
     void Player::CheckCollisions(Vector2 oldPosition);
@@ -46,7 +50,8 @@ public:
     bool Player::BigPill() const;
     Texture2D Player::Texture() const;
 
-    void Player::Init(Tilemap tilemap);
+    static Player* Player::GetInstance();
+    void Player::Init();
     void Player::Update();
     void Player::Draw();
     void Player::Die();

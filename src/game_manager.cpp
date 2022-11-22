@@ -26,11 +26,15 @@ void GameManager::Init()
 	imTileset = LoadImage("resources/TileMap/PacManTileset.png");
 	texTileset = LoadTextureFromImage(imTileset);
 	UnloadImage(imTileset);
+	
+	_tilemap = Tilemap::GetInstance();
+	_tilemap->Load("resources/TileMap/tilemap.txt", "resources/TileMap/tilemap_collisions.txt", "resources/TileMap/objects.txt");
+	_tilemap->Init(SCR_WIDTH, SCR_HEIGHT, 32);
 
-	_tilemap.Load("resources/TileMap/tilemap.txt", "resources/TileMap/tilemap_collisions.txt", "resources/TileMap/objects.txt");
-	_tilemap.Init(SCR_WIDTH, SCR_HEIGHT, 32);
-	player.Init(_tilemap);
-	_ghost.Init(_tilemap, &player);
+	_player = Player::GetInstance();
+	_player->Init();
+
+	_ghost.Init();
 }
 
 void GameManager::Update()
@@ -40,19 +44,19 @@ void GameManager::Update()
 	// Press enter or tap to change to ENDING screen
 	if (!gamePaused)
 	{
-		if (player.Lifes() == 0) 
+		if (_player->Lifes() == 0) 
 		{
 			gameEnded = true;
 		}
 		
-		if(_tilemap.numOfPills == 0) 
+		if(_tilemap->numOfPills == 0)
 		{
 			gameEnded = true;
 			win = true;
 		}
 
 		// PLAYER UPDATE
-		player.Update();
+		_player->Update();
 		_ghost.Update();
 	}
 }
@@ -63,10 +67,12 @@ void GameManager::Draw()
 	DrawUI();
 
 	// TILEMAP DRAW
-	_tilemap.Draw(texTileset);
+	_tilemap->Draw(texTileset);
 	
 	// PLAYER DRAW
-	player.Draw();
+	_player->Draw();
+
+	// GHOST DRAW
 	_ghost.Draw();
 }
 
@@ -78,14 +84,14 @@ void GameManager::DrawUI()
 	// PLAYER LIFES 
 	int offset = 50;
 	int lifesPos = GetScreenWidth();
-	for (int i = 0; i < player.Lifes(); i++) 
+	for (int i = 0; i < _player->Lifes(); i++) 
 	{
 		lifesPos -= offset;
 		DrawTexture(playerLifesTexture, lifesPos, 5, WHITE);
 	}
 
 	// PLAYER SCORE
-	char* score = (char*)TextFormat("SCORE:    %i", player.Score());
+	char* score = (char*)TextFormat("SCORE:    %i", _player->Score());
 	DrawText(score, 20, 10, 20, GRAY);
 }
 
@@ -93,6 +99,6 @@ void GameManager::Unload()
 {
 	UnloadTexture(playerLifesTexture);
 	UnloadTexture(texTileset);
-	player.Reset();
+	_player->Reset();
 	_ghost.Reset();
 }

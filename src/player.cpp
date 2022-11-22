@@ -1,11 +1,14 @@
 #include "player.hpp"
 
+Player* Player::_player = NULL;
 bool Player::IsDead() const { return _isDead; }
 Vector2 Player::Position() const { return _position; }
 int Player::Score() const { return _score; }
 int Player::Lifes() const { return _lifes; }
 bool Player::BigPill() const { return _bigPill; }
 Texture2D Player::Texture() const { return _texture; }
+
+Player::Player(){}
 
 // PRIVATE METHODS
 void Player::Move() 
@@ -47,31 +50,31 @@ void Player::CheckState()
 
 void Player::CheckCollisions(Vector2 oldPosition) 
 {
-    for (int y = 0; y < _tilemap.TileCountY(); y++)
+    for (int y = 0; y < _tilemap->TileCountY(); y++)
     {
-        for (int x = 0; x < _tilemap.TileCountX(); x++)
+        for (int x = 0; x < _tilemap->TileCountX(); x++)
         {
             // COLLISION WITH BORDERS
-            if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].collider == 0) && CheckCollisionRecs(GetBounds(), _tilemap.GetBounds(x, y)))
+            if ((_tilemap->Tiles()[y * _tilemap->TileCountX() + x].collider == 0) && CheckCollisionRecs(GetBounds(), _tilemap->GetBounds(x, y)))
             {
                 _position = oldPosition;
             }
 
             // IF PLAYER IS IN THE SAME TILE AS AN OBJECT
-            if (_position.x == _tilemap.Position().x + x * _tilemap.TileSize() && _position.y == _tilemap.Position().y + y * _tilemap.TileSize()) 
+            if (_position.x == _tilemap->Position().x + x * _tilemap->TileSize() && _position.y == _tilemap->Position().y + y * _tilemap->TileSize())
             {
-                if ((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 30))
+                if ((_tilemap->Tiles()[y * _tilemap->TileCountX() + x].object == 30))
                 {
                     _score += 10;
-                    _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
-                    _tilemap.numOfPills--;
+                    _tilemap->Tiles()[y * _tilemap->TileCountX() + x].object = -1;
+                    _tilemap->numOfPills--;
                     _bigPill = false;
                 }
-                else if((_tilemap.Tiles()[y * _tilemap.TileCountX() + x].object == 28))
+                else if((_tilemap->Tiles()[y * _tilemap->TileCountX() + x].object == 28))
                 {
                     _score += 50;
-                    _tilemap.Tiles()[y * _tilemap.TileCountX() + x].object = -1;
-                    _tilemap.numOfPills--;
+                    _tilemap->Tiles()[y * _tilemap->TileCountX() + x].object = -1;
+                    _tilemap->numOfPills--;
                     _bigPill = true;
                 }
             }
@@ -79,15 +82,21 @@ void Player::CheckCollisions(Vector2 oldPosition)
     }
 }
 
-
 // PUBLIC METHODS
-void Player::Init(Tilemap tilemap) 
+Player* Player::GetInstance() 
+{
+    if (!_player)
+        _player = new Player();
+    return _player;
+}
+
+void Player::Init() 
 {
     _score = 0;
-    _tilemap = tilemap;
+    _tilemap = Tilemap::GetInstance();
 
     _initialTile = { 13, 17 };
-    _position = Vector2{tilemap.Position().x + _initialTile.x * tilemap.TileSize(), tilemap.Position().y + _initialTile.y * tilemap.TileSize()};
+    _position = Vector2{_tilemap->Position().x + _initialTile.x * _tilemap->TileSize(), _tilemap->Position().y + _initialTile.y * _tilemap->TileSize()};
     _dir = Vector2{ 0, 0 };
     _moveSpeed = 2;
     _lifes = 3;
@@ -135,7 +144,7 @@ void Player::Update()
             {
                 _currentFrame = 0;
                 _dir = { 0, 0 };
-                _position = Vector2{ _tilemap.Position().x + _initialTile.x * _tilemap.TileSize(), _tilemap.Position().y + _initialTile.y * _tilemap.TileSize() };
+                _position = Vector2{ _tilemap->Position().x + _initialTile.x * _tilemap->TileSize(), _tilemap->Position().y + _initialTile.y * _tilemap->TileSize() };
                 _currentState = IDLE;
                 _isDead = false;
             }

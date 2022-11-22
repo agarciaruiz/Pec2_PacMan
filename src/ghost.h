@@ -19,7 +19,8 @@ private:
 	Image _image;
 	Texture2D _currentTexture;
 	Rectangle _bounds;
-	Tilemap _tilemap;
+
+	Tilemap* _tilemap;
 	Player *_player;
 
 	float _frightenedCounter;
@@ -27,6 +28,7 @@ private:
 
 	enum State { CHASE, FRIGHTENED, EATEN};
 	State _currentState = CHASE;
+
 
 	Rectangle Ghost::GetBounds();
 	void Ghost::CheckState();
@@ -43,7 +45,8 @@ public:
 	Vector2 Ghost::Position() const;
 	Rectangle Ghost::Bounds() const;
 
-	void Ghost::Init(Tilemap tilemap, Player *player);
+	Ghost::Ghost();
+	void Ghost::Init();
 	void Ghost::Update();
 	void Ghost::Draw();
 	void Ghost::Reset();

@@ -5,6 +5,8 @@ Rectangle Ghost::GetBounds()
 	return Rectangle{ _position.x, _position.y, (float)_currentTexture.width / 12, (float)_currentTexture.height / 4};
 }
 
+Ghost::Ghost(){}
+
 void Ghost::CheckState() 
 {
 	switch (_currentState)
@@ -53,7 +55,7 @@ void Ghost::Move()
 	_position.x += newDir.x * _speed;
 	_position.y += newDir.y * _speed;
 
-	Vector2 targetPos = { _tilemap.Position().x + _targetTile.x * _tilemap.TileSize(), _tilemap.Position().y + _targetTile.y * _tilemap.TileSize() };
+	Vector2 targetPos = { _tilemap->Position().x + _targetTile.x * _tilemap->TileSize(), _tilemap->Position().y + _targetTile.y * _tilemap->TileSize() };
 	if (_position.x == targetPos.x && _position.y == targetPos.y)
 	{
 		_tile = _targetTile;
@@ -78,7 +80,7 @@ std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions)
 		int tileX = _tile.x + it->x;
 		int tileY = _tile.y + it->y;
 
-		if ((_tilemap.Tiles()[tileY * _tilemap.TileCountX() + tileX].collider) != 0)
+		if ((_tilemap->Tiles()[tileY * _tilemap->TileCountX() + tileX].collider) != 0)
 		{
 			newDirections.push_back({it->x, it->y});
 		}
@@ -88,8 +90,8 @@ std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions)
 
 Vector2 Ghost::CheckDistanceWithPlayer(std::vector<Vector2> directions)
 {
-	int playerTileX = ((_player->Position().x - _tilemap.Position().x) / _tilemap.TileSize());
-	int playerTileY = ((_player->Position().y - _tilemap.Position().y) / _tilemap.TileSize());
+	int playerTileX = ((_player->Position().x - _tilemap->Position().x) / _tilemap->TileSize());
+	int playerTileY = ((_player->Position().y - _tilemap->Position().y) / _tilemap->TileSize());
 
 	float currentDistance = INFINITY;
 	Vector2 dir{};
@@ -161,7 +163,7 @@ bool Ghost::CheckCollisionWithPlayer()
 
 void Ghost::ResetPosition() 
 {
-	this->_position = Vector2{ _tilemap.Position().x + _initialTile.x * _tilemap.TileSize(), _tilemap.Position().y + _initialTile.y * _tilemap.TileSize() };
+	this->_position = Vector2{ _tilemap->Position().x + _initialTile.x * _tilemap->TileSize(), _tilemap->Position().y + _initialTile.y * _tilemap->TileSize() };
 	_tile = _initialTile;
 	_dir = { 0, -1 };
 }
@@ -169,15 +171,17 @@ void Ghost::ResetPosition()
 Vector2 Ghost::Position() const { return _position; }
 Rectangle Ghost::Bounds() const { return _bounds; }
 
-void Ghost::Init(Tilemap tilemap, Player *player)
+void Ghost::Init()
 {
-    _tilemap = tilemap;
-	_player = player;
+    _tilemap = Tilemap::GetInstance();
+	_player = Player::GetInstance();
+
 	_dir = {0, -1};
 	_initialTile = { 13, 9 };
 	_tile = _initialTile;
-	this->_position = Vector2{ tilemap.Position().x + _tile.x * tilemap.TileSize(), tilemap.Position().y + _tile.y * tilemap.TileSize() };
+	this->_position = Vector2{ _tilemap->Position().x + _tile.x * _tilemap->TileSize(), _tilemap->Position().y + _tile.y * _tilemap->TileSize() };
 	this->_bounds = GetBounds();
+
 	_speed = 2;
 	_frightenedCounter = 0;
 	_frightenedTimeout = 10;
@@ -206,7 +210,7 @@ void Ghost::Update()
 	}
 	else if (_currentState == EATEN) 
 	{
-		Vector2 initPos = { _tilemap.Position().x + _initialTile.x * _tilemap.TileSize(), _tilemap.Position().y + _initialTile.y * _tilemap.TileSize() };
+		Vector2 initPos = { _tilemap->Position().x + _initialTile.x * _tilemap->TileSize(), _tilemap->Position().y + _initialTile.y * _tilemap->TileSize() };
 		if (_position.x == initPos.x && _position.y == initPos.y) 
 		{
 			_currentState = CHASE;

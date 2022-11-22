@@ -9,9 +9,9 @@
 class GameManager {
 private:
 
+	// Singleton
 	GameManager::GameManager();
 	static GameManager* _gameManager;
-
 
 	// Game settings
 	bool gamePaused;
@@ -21,10 +21,10 @@ private:
 	Texture2D playerLifesTexture;
 
 	// Player settings
-	Player player {};
+	Player* _player;
+	Tilemap* _tilemap;
 
 	Ghost _ghost;
-	Tilemap _tilemap{};
 	Image imTileset;
 	Texture2D texTileset;
 

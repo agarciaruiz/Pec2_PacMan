@@ -9,6 +9,8 @@ class Tilemap
 {
 private:
 
+    static Tilemap* _tilemap;
+
     Rectangle tilesetRecs[TILESET_TILES] = {
     { 0, 0, 32, 32 }, { 32, 0, 32, 32 },        // 1, 2
     { 64, 0, 32, 32 }, { 0, 32, 32, 32 },       // 3, 4
@@ -41,6 +43,8 @@ private:
 	int _tileSize;
     Vector2 _position;
 
+    Tilemap::Tilemap();
+
 public:
     Rectangle Tilemap::GetBounds(int x, int y) const;
     Vector2 Tilemap::Position() const;
@@ -50,6 +54,8 @@ public:
     Tile* Tilemap::Tiles() const;
     int numOfPills;
 
+
+    static Tilemap* Tilemap::GetInstance();
 	void Tilemap::Load(const char* valuesMap, const char* collidersMap, const char* objectsMap);
     void Tilemap::Init(float scrW, float scrH, int tileSize);
 	void Tilemap::Unload();
