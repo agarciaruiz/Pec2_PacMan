@@ -1,6 +1,7 @@
 #ifndef ENDINGSCREEN_H
 #define ENDING_H
 #include "screen.hpp"
+#include "game_manager.h"
 
 class EndingScreen : public Screen {
 private:

@@ -14,7 +14,12 @@ void EndingScreen::Update()
 
 void EndingScreen::Draw()
 {
-	DrawText("YOU LOOSE :(", SCR_WIDTH / 2 - MeasureText("YOU LOOSE :(", 50) / 2, GetScreenHeight() / 2 - 50, 50, YELLOW);
+	GameManager* gameManager = GameManager::GetInstance();
+
+	if(gameManager->Win())
+		DrawText("YOU WIN :)", SCR_WIDTH / 2 - MeasureText("YOU WIN :)", 50) / 2, GetScreenHeight() / 2 - 50, 50, YELLOW);
+	else
+		DrawText("YOU LOOSE :(", SCR_WIDTH / 2 - MeasureText("YOU LOOSE :(", 50) / 2, GetScreenHeight() / 2 - 50, 50, YELLOW);
 
 	if ((framesCounter / 30) % 2 == 0)
 	{
