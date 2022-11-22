@@ -33,11 +33,8 @@ private:
 	Rectangle Ghost::GetBounds();
 	void Ghost::CheckState();
 	void Ghost::Move();
-	void Ghost::Runaway();
 	std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions);
-	Vector2 Ghost::CheckDistanceWithPlayer(std::vector<Vector2> directions);
-	Vector2 Ghost::CheckDistanceWithTargetTile(std::vector<Vector2> directions);
-	Vector2 Ghost::CheckDistanceWithHomeTile(std::vector<Vector2> directions);
+	Vector2 Ghost::CheckDistanceWithTarget(Vector2 target, std::vector<Vector2> directions);
 	bool Ghost::CheckCollisionWithPlayer();
 	void Ghost::ResetPosition();
 

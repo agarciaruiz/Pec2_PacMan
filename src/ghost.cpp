@@ -46,11 +46,22 @@ void Ghost::Move()
 
 	Vector2 newDir{};
 	if (_currentState == CHASE)
-		newDir = CheckDistanceWithPlayer(newDirections);
+	{
+		Vector2 target = { 
+			((_player->Position().x - _tilemap->Position().x) / _tilemap->TileSize()), 
+			((_player->Position().y - _tilemap->Position().y) / _tilemap->TileSize()) 
+		};
+		newDir = CheckDistanceWithTarget(target, newDirections);
+	}
 	else if (_currentState == FRIGHTENED)
-		newDir = CheckDistanceWithTargetTile(newDirections);
+	{
+		Vector2 target = { 25, 1 };
+		newDir = CheckDistanceWithTarget(target, newDirections);
+	}
 	else if (_currentState == EATEN)
-		newDir = CheckDistanceWithHomeTile(newDirections);
+	{
+		newDir = CheckDistanceWithTarget(_initialTile, newDirections);
+	}
 
 	_position.x += newDir.x * _speed;
 	_position.y += newDir.y * _speed;
@@ -88,50 +99,7 @@ std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions)
 	return newDirections;
 }
 
-Vector2 Ghost::CheckDistanceWithPlayer(std::vector<Vector2> directions)
-{
-	int playerTileX = ((_player->Position().x - _tilemap->Position().x) / _tilemap->TileSize());
-	int playerTileY = ((_player->Position().y - _tilemap->Position().y) / _tilemap->TileSize());
-
-	float currentDistance = INFINITY;
-	Vector2 dir{};
-	for (auto it = directions.begin(); it != directions.end(); it++) 
-	{
-		int ghostNewTileX = _tile.x + it->x;
-		int ghostNewTileY = _tile.y + it->y;
-		float distance = pow((playerTileX - ghostNewTileX), 2) + pow((playerTileY - ghostNewTileY), 2);
-		if (distance < currentDistance)
-		{
-			currentDistance = distance;
-			dir = {it->x, it->y};
-			_targetTile = { _tile.x + it->x, _tile.y + it->y };
-		}
-	}
-	return dir;
-}
-
-Vector2 Ghost::CheckDistanceWithTargetTile(std::vector<Vector2> directions)
-{
-	Vector2 targetTile = { 25, 1 };
-
-	float currentDistance = INFINITY;
-	Vector2 dir{};
-	for (auto it = directions.begin(); it != directions.end(); it++)
-	{
-		int ghostNewTileX = _tile.x + it->x;
-		int ghostNewTileY = _tile.y + it->y;
-		float distance = pow((targetTile.x - ghostNewTileX), 2) + pow((targetTile.y - ghostNewTileY), 2);
-		if (distance < currentDistance)
-		{
-			currentDistance = distance;
-			dir = { it->x, it->y };
-			_targetTile = { _tile.x + it->x, _tile.y + it->y };
-		}
-	}
-	return dir;
-}
-
-Vector2 Ghost::CheckDistanceWithHomeTile(std::vector<Vector2> directions)
+Vector2 Ghost::CheckDistanceWithTarget(Vector2 target, std::vector<Vector2> directions)
 {
 	float currentDistance = INFINITY;
 	Vector2 dir{};
@@ -139,7 +107,7 @@ Vector2 Ghost::CheckDistanceWithHomeTile(std::vector<Vector2> directions)
 	{
 		int ghostNewTileX = _tile.x + it->x;
 		int ghostNewTileY = _tile.y + it->y;
-		float distance = pow((_initialTile.x - ghostNewTileX), 2) + pow((_initialTile.y - ghostNewTileY), 2);
+		float distance = pow((target.x - ghostNewTileX), 2) + pow((target.y - ghostNewTileY), 2);
 		if (distance < currentDistance)
 		{
 			currentDistance = distance;
