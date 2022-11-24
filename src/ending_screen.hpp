@@ -6,6 +6,7 @@
 class EndingScreen : public Screen {
 private:
 public:
+	void EndingScreen::Init() override;
 	void EndingScreen::Update() override;
 	void EndingScreen::Draw() override;
 };

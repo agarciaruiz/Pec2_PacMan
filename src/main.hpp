@@ -13,7 +13,6 @@
 // NOTE: Those variables are shared between modules through screens.h
 //----------------------------------------------------------------------------------
 Screens currentScreen;
-Music music;
 
 LogoScreen logoScreen;
 TitleScreen titleScreen;

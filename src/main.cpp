@@ -18,12 +18,6 @@ int main(void)
 
     InitAudioDevice();      // Initialize audio device
 
-    // Load global data (assets that must be available in all screens, i.e. font)
-    music = LoadMusicStream("resources/Music/bso.wav");
-    
-    SetMusicVolume(music, 1.0f);
-    PlayMusicStream(music);
-
     // Setup and init first screen
     currentScreen = LOGO;
 
@@ -51,9 +45,6 @@ int main(void)
         case ENDING: endingScreen.Unload(); break;
         default: break;
     }
-
-    // Unload global data loaded
-    UnloadMusicStream(music);
 
     CloseAudioDevice();     // Close audio context
 
@@ -171,7 +162,6 @@ static void UpdateDrawFrame()
 {
     // Update
     //----------------------------------------------------------------------------------
-    UpdateMusicStream(music);       // NOTE: Music keeps playing between screens
 
     if (!onTransition)
     {

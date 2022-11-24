@@ -1,6 +1,7 @@
 #ifndef TITLE_SCREEN_H
 #define TITLE_SCREEN_H
 #include "screen.hpp"
+#include "sound_manager.h"
 
 class TitleScreen : public Screen {
 private:

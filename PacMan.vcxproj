@@ -178,6 +178,7 @@
     <ClCompile Include="src\options_screen.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\screen.cpp" />
+    <ClCompile Include="src\sound_manager.cpp" />
     <ClCompile Include="src\tilemap.cpp" />
     <ClCompile Include="src\title_screen.cpp" />
     <ClCompile Include="src\ghost.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="src\pool.h" />
     <ClInclude Include="src\raylib.h" />
     <ClInclude Include="src\screen.hpp" />
+    <ClInclude Include="src\sound_manager.h" />
     <ClInclude Include="src\tilemap.h" />
     <ClInclude Include="src\title_screen.hpp" />
     <ClInclude Include="src\ghost.h" />

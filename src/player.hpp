@@ -5,6 +5,7 @@
 #include "raylib.h"
 #include "screen.hpp"
 #include "tilemap.h"
+#include "sound_manager.h"
 
 class Player {
 private:
@@ -35,7 +36,7 @@ private:
     State _currentState;
 
     Tilemap* _tilemap;
-
+    SoundManager* _soundManager;
 
     Player::Player();
     void Player::Move();

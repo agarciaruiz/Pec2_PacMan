@@ -75,6 +75,7 @@ void Player::CheckCollisions(Vector2 oldPosition)
                     _score += 50;
                     _tilemap->Tiles()[y * _tilemap->TileCountX() + x].object = -1;
                     _tilemap->numOfPills--;
+                    _soundManager->PlaySoundStream("resources/Audio/Sounds/EatingPowerPill.mp3");
                     _bigPill = true;
                 }
             }
@@ -94,6 +95,7 @@ void Player::Init()
 {
     _score = 0;
     _tilemap = Tilemap::GetInstance();
+    _soundManager = SoundManager::GetInstance();
 
     _initialTile = { 13, 17 };
     _position = Vector2{_tilemap->Position().x + _initialTile.x * _tilemap->TileSize(), _tilemap->Position().y + _initialTile.y * _tilemap->TileSize()};
@@ -182,7 +184,7 @@ void Player::Update()
 void Player::Die() 
 {
     if (_currentState == DEAD) return;
-
+    _soundManager->PlaySoundStream("resources/Audio/Sounds/Death.mp3");
     _isDead = true;
     _currentState = DEAD;
     _lifes--;
@@ -198,6 +200,7 @@ void Player::Draw()
 
 void Player::GhostEaten() 
 {
+    _soundManager->PlaySoundStream("resources/Audio/Sounds/EatingGhost.mp3");
     _score += 200;
 }
 

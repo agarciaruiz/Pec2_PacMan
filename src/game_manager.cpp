@@ -34,6 +34,9 @@ void GameManager::Init()
 	_player = Player::GetInstance();
 	_player->Init();
 
+	_soundManager = SoundManager::GetInstance();
+	_soundManager->PlaySoundStream("resources/Audio/Sounds/GameStart.mp3");
+
 	_ghost.Init();
 }
 
@@ -51,6 +54,7 @@ void GameManager::Update()
 		
 		if(_tilemap->numOfPills == 0)
 		{
+			_soundManager->PlaySoundStream("resources/Audio/Sounds/Death.mp3");
 			gameEnded = true;
 			win = true;
 		}
@@ -100,5 +104,6 @@ void GameManager::Unload()
 	UnloadTexture(playerLifesTexture);
 	UnloadTexture(texTileset);
 	_player->Reset();
+	//_soundManager->UnloadMusic();
 	_ghost.Reset();
 }

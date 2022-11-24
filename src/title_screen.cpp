@@ -8,17 +8,24 @@ void TitleScreen::Init()
 	goToOptionsText = "PRESS [0] for INSTRUCTIONS";
 	framesCounter = 0;
 	finishScreen = 0;
+
+	SoundManager::GetInstance()->PlayMusic("resources/Audio/Music/IntroTheme.mp3");
+
 }
 
 void TitleScreen::Update()
 {
 	framesCounter++;
+	SoundManager::GetInstance()->UpdateMusic();
+
 	// Press enter to change to GAMEPLAY screen
 	if (IsKeyPressed(KEY_ENTER))
 		finishScreen = 4;   // GAMEPLAY
 
-	if (IsKeyPressed(KEY_O))
+	if (IsKeyPressed(KEY_O)) {
 		finishScreen = 3; // OPTIONS
+		SoundManager::GetInstance()->UnloadMusic();
+	}
 }
 
 void TitleScreen::Draw()

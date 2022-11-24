@@ -5,6 +5,7 @@
 #include "player.hpp"
 #include "ghost.h"
 #include "tilemap.h"
+#include "sound_manager.h"
 
 class GameManager {
 private:
@@ -19,10 +20,12 @@ private:
 	bool win;
 	Image playerLifesImage;
 	Texture2D playerLifesTexture;
+	Music _music;
 
 	// Player settings
 	Player* _player;
 	Tilemap* _tilemap;
+	SoundManager* _soundManager;
 
 	Ghost _ghost;
 	Image imTileset;

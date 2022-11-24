@@ -6,6 +6,7 @@ void GameScreen::Init()
 	_gameManager->Init();
 	framesCounter = 0;
 	finishScreen = 0;
+
 }
 
 void GameScreen::Update()

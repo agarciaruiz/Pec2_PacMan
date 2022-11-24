@@ -1,15 +1,25 @@
 #include "ending_screen.hpp"
 
+void EndingScreen::Init() {
+	framesCounter = 0;
+	finishScreen = 0;
+
+	SoundManager::GetInstance()->PlayMusic("resources/Audio/Music/GameOverTheme.mp3");
+}
+
 void EndingScreen::Update()
 {
 	framesCounter++;
+	SoundManager::GetInstance()->UpdateMusic();
 
 	// Press enter or tap to return to TITLE screen
 	if (IsKeyPressed(KEY_ENTER))
 		finishScreen = 2;
 
-	if (IsKeyPressed(KEY_O))
+	if (IsKeyPressed(KEY_O)) {
+		SoundManager::GetInstance()->UnloadMusic();
 		finishScreen = 3;
+	}
 }
 
 void EndingScreen::Draw()
