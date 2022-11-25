@@ -32,14 +32,35 @@ void Ghost::CheckState()
 
 void Ghost::Move()
 {
+	Vector2 targetPos = {_tilemap->Position().x + _targetTile.x * _tilemap->TileSize(), _tilemap->Position().y + _targetTile.y * _tilemap->TileSize()};
+	if (_position.x == targetPos.x && _position.y == targetPos.y)
+	{
+		_tile = _targetTile;
+		_dir = GetNewDirection();
+	}
+
+	_position.x += _dir.x * _speed;
+	_position.y += _dir.y * _speed;
+
+	if (_currentState == CHASE && CheckCollisionWithPlayer())
+		_player->Die();
+	else if(_currentState == FRIGHTENED && CheckCollisionWithPlayer())
+	{
+		_currentState = EATEN;
+		_player->GhostEaten();
+	}
+}
+
+Vector2 Ghost::GetNewDirection()
+{
 	std::vector<Vector2> possibleDirections;
-	if (_dir.x == 0 && _dir.y == 1) 
+	if (_dir.x == 0 && _dir.y == 1)
 		possibleDirections = { {-1, 0}, {0, 1}, {1, 0} };
-	else if(_dir.x == 0 && _dir.y == -1)
+	else if (_dir.x == 0 && _dir.y == -1)
 		possibleDirections = { {-1, 0}, {0, -1}, {1, 0} };
-	else if(_dir.x == 1 && _dir.y == 0)
+	else if (_dir.x == 1 && _dir.y == 0)
 		possibleDirections = { {1, 0}, {0, -1}, {0, 1} };
-	else if(_dir.x == -1 && _dir.y == 0)
+	else if (_dir.x == -1 && _dir.y == 0)
 		possibleDirections = { {-1, 0}, {0, -1}, {0, 1} };
 
 	std::vector<Vector2> newDirections = CheckCollisions(possibleDirections);
@@ -47,9 +68,9 @@ void Ghost::Move()
 	Vector2 newDir{};
 	if (_currentState == CHASE)
 	{
-		Vector2 target = { 
-			((_player->Position().x - _tilemap->Position().x) / _tilemap->TileSize()), 
-			((_player->Position().y - _tilemap->Position().y) / _tilemap->TileSize()) 
+		Vector2 target = {
+			((_player->Position().x - _tilemap->Position().x) / _tilemap->TileSize()),
+			((_player->Position().y - _tilemap->Position().y) / _tilemap->TileSize())
 		};
 		newDir = CheckDistanceWithTarget(target, newDirections);
 	}
@@ -62,25 +83,7 @@ void Ghost::Move()
 	{
 		newDir = CheckDistanceWithTarget(_initialTile, newDirections);
 	}
-
-	_position.x += newDir.x * _speed;
-	_position.y += newDir.y * _speed;
-
-	Vector2 targetPos = { _tilemap->Position().x + _targetTile.x * _tilemap->TileSize(), _tilemap->Position().y + _targetTile.y * _tilemap->TileSize() };
-	if (_position.x == targetPos.x && _position.y == targetPos.y)
-	{
-		_tile = _targetTile;
-		_dir = newDir;
-	}
-
-	if (_currentState == CHASE && CheckCollisionWithPlayer())
-		_player->Die();
-	else if(_currentState == FRIGHTENED && CheckCollisionWithPlayer())
-	{
-		_currentState = EATEN;
-		_player->GhostEaten();
-	}
-
+	return newDir;
 }
 
 std::vector<Vector2> Ghost::CheckCollisions(std::vector<Vector2> directions)
@@ -133,7 +136,8 @@ void Ghost::ResetPosition()
 {
 	this->_position = Vector2{ _tilemap->Position().x + _initialTile.x * _tilemap->TileSize(), _tilemap->Position().y + _initialTile.y * _tilemap->TileSize() };
 	_tile = _initialTile;
-	_dir = { 0, -1 };
+	_targetTile = _initialTile;
+	_dir = { 1, 0 };
 }
 
 Vector2 Ghost::Position() const { return _position; }
@@ -144,9 +148,10 @@ void Ghost::Init()
     _tilemap = Tilemap::GetInstance();
 	_player = Player::GetInstance();
 
-	_dir = {0, -1};
+	_dir = {1, 0};
 	_initialTile = { 13, 9 };
 	_tile = _initialTile;
+	_targetTile = _initialTile;
 	this->_position = Vector2{ _tilemap->Position().x + _tile.x * _tilemap->TileSize(), _tilemap->Position().y + _tile.y * _tilemap->TileSize() };
 	this->_bounds = GetBounds();
 

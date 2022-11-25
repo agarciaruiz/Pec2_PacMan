@@ -21,7 +21,7 @@ private:
 	Rectangle _bounds;
 
 	Tilemap* _tilemap;
-	Player *_player;
+	Player* _player;
 
 	float _frightenedCounter;
 	float _frightenedTimeout;
@@ -37,6 +37,7 @@ private:
 	Vector2 Ghost::CheckDistanceWithTarget(Vector2 target, std::vector<Vector2> directions);
 	bool Ghost::CheckCollisionWithPlayer();
 	void Ghost::ResetPosition();
+	Vector2 Ghost::GetNewDirection();
 
 public:
 	Vector2 Ghost::Position() const;
